@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <!-- 悬浮窗权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 录音权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <application
         android:name=".FloatMasterApp"
         android:allowBackup="true"
@@ -14,7 +18,7 @@
         android:theme="@style/Theme.FloatMaster">
 
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.activity.main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.FloatMaster">
             <intent-filter>
