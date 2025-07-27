@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">FloatMaster</string>
+    <string name="app_title">悬浮大师</string>
+    <string name="hello">hello</string>
+    <string name="audio_permission">录音权限</string>
+    <string name="overlay_permission">悬浮窗权限</string>
+    <string name="missing_permissions_prefix">缺少以下权限：\n</string>
+    <string name="mic_control">mic控制</string>
 </resources>
