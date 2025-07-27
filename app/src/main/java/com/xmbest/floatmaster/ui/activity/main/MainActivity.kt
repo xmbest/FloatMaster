@@ -7,24 +7,19 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.xmbest.floatmaster.R
 import com.xmbest.floatmaster.manager.PermissionManager
 import com.xmbest.floatmaster.model.Permission
+import com.xmbest.floatmaster.ui.component.PermissionStatusCard
 import com.xmbest.floatmaster.ui.theme.FloatMasterTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,6 +28,9 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var permissionManager: PermissionManager
+    
+    // 跟踪当前请求的权限
+    private var currentRequestedPermission: Permission? = null
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
         // 初始检查权限
         viewModel.handleIntent(MainIntent.CheckPermissions)
-        
+
         // 请求所需权限
         permissionManager.requestPermissionsIfNeeded(
             normalPermissionLauncher = requestPermissionLauncher,
@@ -54,14 +52,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             val state by viewModel.state.collectAsState()
             val snackbarHostState = remember { SnackbarHostState() }
-            
-            // 监听权限消息状态
-            LaunchedEffect(state.showPermissionMessage, state.permissionMessage) {
-                if (state.showPermissionMessage && state.permissionMessage.isNotBlank()) {
-                    snackbarHostState.showSnackbar(state.permissionMessage)
-                    viewModel.handleIntent(MainIntent.DismissPermissionMessage)
-                }
-            }
 
             FloatMasterTheme {
                 Scaffold(
@@ -73,32 +63,54 @@ class MainActivity : ComponentActivity() {
                     },
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
-                    Row(
+                    Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-//                        Text(stringResource(R.string.hello))
+                        // 权限状态显示 - 只有当存在未授权权限时才显示
+                        if (!state.allPermissionsGranted) {
+                            PermissionStatusCard(
+                                state = state,
+                                context = this@MainActivity,
+                                onGrantPermission = { permission ->
+                                    permissionManager.requestPermissionSmart(
+                                        permission,
+                                        requestPermissionLauncher,
+                                        overlayPermissionLauncher
+                                    ) { requestedPermission ->
+                                        currentRequestedPermission = requestedPermission
+                                    }
+                                }
+                            )
+                        }
                     }
                 }
             }
         }
     }
 
-
-
+    override fun onResume() {
+        super.onResume()
+        // 从设置页面返回时重新检查权限状态
+        viewModel.handleIntent(MainIntent.CheckPermissions)
+    }
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        // 根据权限名称找到对应的Permission枚举
-        Permission.fromPermissionName(Permission.RECORD_AUDIO.permissionName)?.let { permission ->
+        // 使用当前请求的权限
+        currentRequestedPermission?.let { permission ->
             viewModel.handleIntent(
                 MainIntent.OnPermissionResult(
                     permission = permission,
                     isGranted = isGranted
                 )
             )
+            currentRequestedPermission = null
         }
     }
 

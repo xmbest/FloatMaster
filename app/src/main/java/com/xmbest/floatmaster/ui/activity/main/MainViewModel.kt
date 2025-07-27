@@ -26,7 +26,6 @@ class MainViewModel @Inject constructor(
                 intent.permission,
                 intent.isGranted
             )
-            is MainIntent.DismissPermissionMessage -> dismissPermissionMessage()
         }
     }
 
@@ -35,36 +34,12 @@ class MainViewModel @Inject constructor(
             val updatedPermissions = Permission.getAllPermissions().associateWith { permission ->
                 permission.isGranted(application)
             }
-            
             _state.value = _state.value.copy(permissions = updatedPermissions)
-            checkAllPermissionsAndShowMessage()
         }
     }
 
 
     private fun handlePermissionResult(permission: Permission, isGranted: Boolean) {
         _state.value = _state.value.updatePermission(permission, isGranted)
-        checkAllPermissionsAndShowMessage()
-    }
-
-    private fun checkAllPermissionsAndShowMessage() {
-        val currentState = _state.value
-        val missingPermissions = currentState.getMissingPermissions()
-
-        if (missingPermissions.isNotEmpty()) {
-            val permissionNames = missingPermissions.map { it.getDisplayName(application) }
-            val message = "缺少权限: ${permissionNames.joinToString(", ")}"
-            _state.value = _state.value.copy(
-                permissionMessage = message,
-                showPermissionMessage = true
-            )
-        }
-    }
-
-    private fun dismissPermissionMessage() {
-        _state.value = _state.value.copy(
-            permissionMessage = "",
-            showPermissionMessage = false
-        )
     }
 }

@@ -1,4 +1,4 @@
-package com.xmbest.floatmaster.model
+package com.xmbest.floatmaster.example
 
 /**
  * 权限管理系统使用示例

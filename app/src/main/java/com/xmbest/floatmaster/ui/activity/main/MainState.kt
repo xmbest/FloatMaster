@@ -4,8 +4,6 @@ import com.xmbest.floatmaster.model.Permission
 
 data class MainState(
     val permissions: Map<Permission, Boolean> = Permission.getAllPermissions().associateWith { false },
-    val permissionMessage: String = "",
-    val showPermissionMessage: Boolean = false,
     val isLoading: Boolean = false
 ) {
     val allPermissionsGranted: Boolean

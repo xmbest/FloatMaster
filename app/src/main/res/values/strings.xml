@@ -6,4 +6,6 @@
     <string name="overlay_permission">悬浮窗权限</string>
     <string name="missing_permissions_prefix">缺少以下权限：\n</string>
     <string name="mic_control">mic控制</string>
+    <string name="permission_status">权限状态</string>
+    <string name="grant_permission">去授权</string>
 </resources>
