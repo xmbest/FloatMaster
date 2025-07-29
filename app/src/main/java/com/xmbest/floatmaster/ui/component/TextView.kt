@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import com.xmbest.floatmaster.model.TextProperties
 
 @Composable
-fun TextWidget(
+fun TextView(
     text: String,
     properties: TextProperties = TextProperties()
 ) {

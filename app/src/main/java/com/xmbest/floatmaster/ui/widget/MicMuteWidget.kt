@@ -1,11 +1,11 @@
-package com.xmbest.floatmaster.ui.component
+package com.xmbest.floatmaster.ui.widget
 
 import android.content.Context
 import android.media.AudioManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mic
@@ -35,21 +35,21 @@ fun MicMuteWidget(imageProperties: ImageProperties = ImageProperties()) {
      * 是否禁用mic
      */
     var disable by remember { mutableStateOf(audioManager.isMicrophoneMute) }
-    Row(
+    Icon(
+        if (disable) Icons.Default.MicOff else Icons.Default.Mic,
+        tint = imageProperties.color,
+        contentDescription = stringResource(R.string.mic_control),
         modifier = Modifier
             .size(imageProperties.width.dp, imageProperties.height.dp)
             .background(imageProperties.backgroundColor)
-            .clickable {
-                audioManager.isMicrophoneMute = !disable
-                disable = audioManager.isMicrophoneMute
-            }
-    ) {
-        Icon(
-            if (disable) Icons.Default.MicOff else Icons.Default.Mic,
-            tint = imageProperties.color,
-            contentDescription = stringResource(R.string.mic_control),
-            modifier = Modifier
-                .fillMaxSize()
-        )
-    }
+            .padding(26.dp)
+            .clickable(
+                indication = null,
+                onClick = {
+                    audioManager.isMicrophoneMute = !disable
+                    disable = audioManager.isMicrophoneMute
+                },
+                interactionSource = remember { MutableInteractionSource() }
+            )
+    )
 }

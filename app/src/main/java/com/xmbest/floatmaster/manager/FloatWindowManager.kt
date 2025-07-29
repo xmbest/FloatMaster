@@ -14,16 +14,19 @@ import androidx.compose.runtime.Recomposer
 import androidx.compose.ui.platform.AndroidUiDispatcher
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.compositionContext
+import androidx.compose.ui.unit.isSpecified
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
-import androidx.lifecycle.setViewTreeLifecycleOwner
-import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
+import com.xmbest.floatmaster.model.ImageProperties
+import com.xmbest.floatmaster.model.TextProperties
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -75,6 +78,7 @@ class FloatWindowManager(private val context: Context) {
 
     private val floatViews = mutableListOf<View>()
     private val lifecycleOwners = mutableMapOf<View, FloatLifecycleOwner>()
+    private val viewIdMap = mutableMapOf<String, View>() // ID到View的映射
     private val coroutineScope = CoroutineScope(AndroidUiDispatcher.Main)
 
     /**
@@ -106,6 +110,7 @@ class FloatWindowManager(private val context: Context) {
 
     /**
      * 添加Compose悬浮窗
+     * @param id 唯一标识
      * @param content Compose内容
      * @param startX 起始x轴点
      * @param startY 起始y轴点
@@ -113,14 +118,65 @@ class FloatWindowManager(private val context: Context) {
      * @param height 高度
      */
     fun addComposeView(
+        id: String,
         content: @Composable () -> Unit,
         startX: Int = 0,
         startY: Int = 0,
         width: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
         height: Int = ViewGroup.LayoutParams.WRAP_CONTENT
     ) {
+        // 如果已存在相同ID的view，先移除
+        removeViewById(id)
+        
         val composeView = createComposeView(content)
         addView(composeView, startX, startY, width, height)
+        viewIdMap[id] = composeView
+    }
+    
+    /**
+     * 添加Compose悬浮窗（使用ImageProperties）
+     */
+    fun addComposeView(
+        id: String,
+        content: @Composable () -> Unit,
+        imageProperties: ImageProperties
+    ) {
+        // 如果已存在相同ID的view，先移除
+        removeViewById(id)
+        
+        val composeView = createComposeView(content)
+        addView(
+            composeView, 
+            imageProperties.x.toInt(), 
+            imageProperties.y.toInt(), 
+            imageProperties.width.toInt(), 
+            imageProperties.height.toInt()
+        )
+        viewIdMap[id] = composeView
+    }
+    
+    /**
+     * 添加Compose悬浮窗（使用TextProperties）
+     */
+    fun addComposeView(
+        id: String,
+        content: @Composable () -> Unit,
+        textProperties: TextProperties
+    ) {
+        // 如果已存在相同ID的view，先移除
+        removeViewById(id)
+        
+        val composeView = createComposeView(content)
+        val width = if (textProperties.width.isSpecified) textProperties.width.value.toInt() else ViewGroup.LayoutParams.WRAP_CONTENT
+        val height = if (textProperties.height.isSpecified) textProperties.height.value.toInt() else ViewGroup.LayoutParams.WRAP_CONTENT
+        addView(
+            composeView, 
+            textProperties.x.toInt(), 
+            textProperties.y.toInt(), 
+            width, 
+            height
+        )
+        viewIdMap[id] = composeView
     }
 
     /**
@@ -166,11 +222,34 @@ class FloatWindowManager(private val context: Context) {
                 lifecycleOwners.remove(view)
             }
             
+            // 从ID映射中移除
+            viewIdMap.entries.removeAll { it.value == view }
+            
             floatViews.remove(view)
             windowManager.removeView(view)
         }.onFailure {
             // view可能已经被移除了
         }
+    }
+    
+    /**
+     * 根据ID移除悬浮窗
+     * @param id 悬浮窗ID
+     * @return 是否成功移除
+     */
+    fun removeViewById(id: String): Boolean {
+        val view = viewIdMap[id] ?: return false
+        removeView(view)
+        return true
+    }
+    
+    /**
+     * 检查指定ID的悬浮窗是否存在
+     * @param id 悬浮窗ID
+     * @return 是否存在
+     */
+    fun hasView(id: String): Boolean {
+        return viewIdMap.containsKey(id)
     }
 
     /**
@@ -181,6 +260,7 @@ class FloatWindowManager(private val context: Context) {
         viewsToRemove.forEach { view ->
             removeView(view)
         }
+        viewIdMap.clear()
     }
 
     /**
@@ -196,6 +276,7 @@ class FloatWindowManager(private val context: Context) {
     fun destroy() {
         removeAllView()
         lifecycleOwners.clear()
+        viewIdMap.clear()
     }
 
     /**
@@ -208,7 +289,7 @@ class FloatWindowManager(private val context: Context) {
         var initialTouchX = 0f
         var initialTouchY = 0f
         var isDragging = false
-        val touchSlop = 10 // 触摸阈值，超过这个距离才认为是拖拽
+        val touchSlop = 20 // 增加触摸阈值，避免与Compose组件冲突
 
         view.setOnTouchListener { _, event ->
             when (event.action) {
@@ -218,7 +299,7 @@ class FloatWindowManager(private val context: Context) {
                     initialTouchX = event.rawX
                     initialTouchY = event.rawY
                     isDragging = false
-                    false // 不拦截DOWN事件，让点击事件能够正常处理
+                    true // 对于ComposeView，需要拦截DOWN事件以确保拖拽功能正常工作
                 }
 
                 android.view.MotionEvent.ACTION_MOVE -> {
@@ -234,19 +315,14 @@ class FloatWindowManager(private val context: Context) {
                         params.x = initialX + deltaX.toInt()
                         params.y = initialY + deltaY.toInt()
                         windowManager.updateViewLayout(view, params)
-                        true // 拖拽时拦截事件
-                    } else {
-                        false // 未拖拽时不拦截
                     }
+                    true // 始终拦截MOVE事件
                 }
 
                 android.view.MotionEvent.ACTION_UP -> {
-                    if (isDragging) {
-                        isDragging = false
-                        true // 拖拽结束时拦截UP事件
-                    } else {
-                        false // 非拖拽时不拦截，让点击事件正常处理
-                    }
+                    val wasDragging = isDragging
+                    isDragging = false
+                    wasDragging // 如果刚才在拖拽，则拦截UP事件
                 }
 
                 else -> false

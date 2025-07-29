@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 data class TextProperties(
     val backgroundColor: Color = Color.Transparent,
     val textColor: Color = Color.Black,
-    val textSize: TextUnit = 14.sp,
+    val textSize: TextUnit = 16.sp,
     val width: Dp = Dp.Unspecified,
     val height: Dp = Dp.Unspecified,
     val fontWeight: FontWeight = FontWeight.Normal,

@@ -7,19 +7,24 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.xmbest.floatmaster.R
 import com.xmbest.floatmaster.manager.PermissionManager
 import com.xmbest.floatmaster.model.Permission
 import com.xmbest.floatmaster.ui.component.PermissionStatusCard
+import com.xmbest.floatmaster.ui.screen.HomeScreen
 import com.xmbest.floatmaster.ui.theme.FloatMasterTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +33,7 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var permissionManager: PermissionManager
-    
+
     // 跟踪当前请求的权限
     private var currentRequestedPermission: Permission? = null
 
@@ -56,11 +61,6 @@ class MainActivity : ComponentActivity() {
             FloatMasterTheme {
                 Scaffold(
                     snackbarHost = { SnackbarHost(snackbarHostState) },
-                    topBar = {
-                        TopAppBar(
-                            title = { Text(stringResource(R.string.app_title)) }
-                        )
-                    },
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
                     Column(
@@ -87,6 +87,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+                        HomeScreen()
                     }
                 }
             }

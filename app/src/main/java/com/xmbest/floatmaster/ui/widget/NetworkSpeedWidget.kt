@@ -1,4 +1,4 @@
-package com.xmbest.floatmaster.ui.component
+package com.xmbest.floatmaster.ui.widget
 
 import android.net.TrafficStats
 import androidx.compose.runtime.Composable
@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.xmbest.floatmaster.model.TextProperties
+import com.xmbest.floatmaster.ui.component.TextView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -72,7 +73,7 @@ fun NetworkSpeedWidget(
         }
     }
 
-    TextWidget(text = text, properties = textProperties)
+    TextView(text = text, properties = textProperties)
 }
 
 /**

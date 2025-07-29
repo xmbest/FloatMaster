@@ -1,4 +1,4 @@
-package com.xmbest.floatmaster.ui.component
+package com.xmbest.floatmaster.ui.widget
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.xmbest.floatmaster.model.TextProperties
+import com.xmbest.floatmaster.ui.component.TextView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import java.text.SimpleDateFormat
@@ -51,5 +52,5 @@ fun TimeWidget(
             delay(refreshIntervalMs)
         }
     }
-    TextWidget(text, textProperties)
+    TextView(text, textProperties)
 }
