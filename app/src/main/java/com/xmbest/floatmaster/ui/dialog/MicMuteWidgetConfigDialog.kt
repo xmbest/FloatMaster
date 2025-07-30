@@ -5,6 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
+import com.xmbest.floatmaster.R
 import com.xmbest.floatmaster.model.ImageProperties
 import com.xmbest.floatmaster.ui.component.ConfigSectionTitle
 import com.xmbest.floatmaster.ui.component.ImagePropertiesEditor
@@ -28,11 +30,11 @@ fun MicMuteWidgetConfigDialog(
     var config by remember { mutableStateOf(initialConfig) }
     
     BaseConfigDialog(
-        title = "麦克风状态显示配置",
+        title = stringResource(R.string.config_title_mic_mute),
         onDismiss = onDismiss,
         onConfirm = { onConfirm(config) }
     ) {
-        ConfigSectionTitle("外观样式")
+        ConfigSectionTitle(stringResource(R.string.section_appearance_style))
         
         ImagePropertiesEditor(
             properties = config.imageProperties,

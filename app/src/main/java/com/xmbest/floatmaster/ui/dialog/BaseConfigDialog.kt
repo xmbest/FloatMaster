@@ -65,7 +65,7 @@ fun BaseConfigDialog(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(onClick = onConfirm) {
-                        Text("确认")
+                        Text(stringResource(R.string.label_confirm))
                     }
                 }
             }

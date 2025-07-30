@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">FloatMaster</string>
+    <string name="app_title">Float Master</string>
+    <string name="task_icon">Task Icon</string>
+    <string name="audio_permission">Audio Permission</string>
+    <string name="overlay_permission">Overlay Permission</string>
+    <string name="missing_permissions_prefix">Missing permissions:\n</string>
+    <string name="mic_control">Mic Control</string>
+    <string name="permission_status">Permission Status</string>
+    <string name="grant_permission">Grant Permission</string>
+    
+    <!-- ItemCard strings -->
+    <string name="coordinate_label">Position: (%1$d, %2$d)</string>
+    <string name="size_label">Size: %1$d×%2$d</string>
+    <string name="edit_item">Edit Item</string>
+    <string name="pause_description">Pause</string>
+    <string name="start_description">Start</string>
+    
+    <!-- Widget titles -->
+    <string name="widget_time_display">Time Display</string>
+    <string name="widget_network_speed">Network Speed</string>
+    <string name="widget_mic_mute">Microphone Control</string>
+    
+    <!-- Dialog buttons -->
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_confirm">OK</string>
+    
+    <!-- Config labels -->
+    <string name="config_refresh_interval">Refresh Interval</string>
+    <string name="config_format_string">Format String</string>
+    <string name="config_timezone">Timezone</string>
+    <string name="config_display_mode">Display Mode</string>
+    <string name="config_icon_size">Icon Size</string>
+    <string name="config_transparency">Transparency</string>
+    <string name="config_font_size">Font Size</string>
+    <string name="config_font_color">Font Color</string>
+    <string name="config_background_color">Background Color</string>
+    
+    <!-- Section titles -->
+    <string name="section_basic_settings">Basic Settings</string>
+    <string name="section_appearance_settings">Appearance Settings</string>
+    <string name="section_text_properties">Text Properties</string>
+    <string name="section_image_properties">Image Properties</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_about">About</string>
+    
+    <!-- ItemCard config info strings -->
+    <string name="config_info_refresh_interval">Refresh Interval: %1$dms</string>
+    <string name="config_info_font_size">Font Size: %1$s</string>
+    <string name="config_info_display_mode">Display Mode: %1$s</string>
+    
+    <!-- Network speed mode strings -->
+    <string name="network_mode_download_only">Download Only</string>
+    <string name="network_mode_upload_only">Upload Only</string>
+    <string name="network_mode_both">Upload + Download</string>
+
+    <!-- About Screen -->
+    <string name="about_title">About Float Master</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_description">A powerful floating window management app that supports time display, network speed monitoring, microphone control and other floating functions (draggable, microphone control requires long press on edge then drag).</string>
+    <string name="about_developer">Developer</string>
+    <string name="about_developer_name">xmbest</string>
+    <string name="about_support">Support</string>
+    <string name="about_support_description">If you find this app helpful, please consider supporting the developer</string>
+    <string name="payment_alipay">Alipay</string>
+    <string name="payment_wechat">WeChat Pay</string>
+    <string name="payment_close">Close</string>
+    
+    <!-- Config Dialog Titles -->
+    <string name="config_title_mic_mute">Microphone Status Display Configuration</string>
+    <string name="config_title_time_display">Time Display Configuration</string>
+    <string name="config_title_network_speed">Network Speed Display Configuration</string>
+    
+    <!-- Section Titles -->
+    <string name="section_appearance_style">Appearance Style</string>
+    <string name="section_text_style">Text Style</string>
+    
+    <!-- Common Labels -->
+    <string name="label_confirm">Confirm</string>
+    <string name="label_width">Width</string>
+    <string name="label_height">Height</string>
+    <string name="label_time_format">Time Format</string>
+    <string name="label_text_size">Text Size</string>
+    <string name="label_font_weight">Font Weight</string>
+    <string name="label_color_settings">Color Settings</string>
+    <string name="label_text_color">Text Color</string>
+    <string name="label_icon_color">Icon Color</string>
+    
+    <!-- Time Format Options -->
+    <string name="time_format_full">Full Date Time</string>
+    <string name="time_format_short">Month Day Hour Minute</string>
+    
+    <!-- Network Speed Mode Options -->
+    <string name="network_mode_both_desc">Show upload and download speed</string>
+    <string name="network_mode_download_desc">Show download speed only</string>
+    <string name="network_mode_upload_desc">Show upload speed only</string>
+    
+    <!-- Font Weight Options -->
+    <string name="font_weight_normal">Normal</string>
+    <string name="font_weight_bold">Bold</string>
+    <string name="font_weight_light">Light</string>
+    <string name="font_weight_medium">Medium</string>
+    <string name="font_weight_semibold">Semi Bold</string>
+    
+    <!-- Widget Descriptions -->
+    <string name="widget_network_speed_desc">Real-time display of network upload and download speed</string>
+    <string name="widget_time_display_desc">Display current time</string>
+    
+    <!-- Timezone Options -->
+    <string name="label_timezone">Timezone</string>
+    <string name="timezone_system_default">System Default</string>
+    <string name="timezone_beijing">Beijing Time (Asia/Shanghai)</string>
+    <string name="timezone_tokyo">Tokyo Time (Asia/Tokyo)</string>
+    <string name="timezone_new_york">New York Time (America/New_York)</string>
+    <string name="timezone_london">London Time (Europe/London)</string>
+    <string name="timezone_paris">Paris Time (Europe/Paris)</string>
+    <string name="timezone_utc">UTC Time (UTC)</string>
+    
+    <!-- Config Labels -->
+    <string name="label_refresh_interval">Refresh Interval (ms)</string>
+    
+    <!-- Time Format Descriptions -->
+    <string name="time_format_24h_with_seconds">24-hour format (14:30:25)</string>
+    <string name="time_format_12h_with_seconds">12-hour format (02:30:25 PM)</string>
+    <string name="time_format_24h_no_seconds">24-hour format without seconds (14:30)</string>
+    <string name="time_format_12h_no_seconds">12-hour format without seconds (02:30 PM)</string>
+</resources>

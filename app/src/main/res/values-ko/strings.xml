@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">FloatMaster</string>
+    <string name="app_title">플로트 마스터</string>
+    <string name="task_icon">작업 아이콘</string>
+    <string name="audio_permission">녹음 권한</string>
+    <string name="overlay_permission">오버레이 권한</string>
+    <string name="missing_permissions_prefix">다음 권한이 부족합니다:\n</string>
+    <string name="mic_control">마이크 제어</string>
+    <string name="permission_status">권한 상태</string>
+    <string name="grant_permission">권한 부여</string>
+    
+    <!-- ItemCard strings -->
+    <string name="coordinate_label">좌표: (%1$d, %2$d)</string>
+    <string name="size_label">크기: %1$d×%2$d</string>
+    <string name="edit_item">항목 편집</string>
+    <string name="pause_description">일시정지</string>
+    <string name="start_description">시작</string>
+    
+    <!-- Widget titles -->
+    <string name="widget_time_display">시간 표시</string>
+    <string name="widget_network_speed">네트워크 속도</string>
+    <string name="widget_mic_mute">마이크 제어</string>
+    
+    <!-- Dialog buttons -->
+    <string name="dialog_cancel">취소</string>
+    <string name="dialog_confirm">확인</string>
+    
+    <!-- Config labels -->
+    <string name="config_refresh_interval">새로고침 간격</string>
+    <string name="config_format_string">형식 문자열</string>
+    <string name="config_timezone">시간대</string>
+    <string name="config_display_mode">표시 모드</string>
+    <string name="config_icon_size">아이콘 크기</string>
+    <string name="config_transparency">투명도</string>
+    <string name="config_font_size">글꼴 크기</string>
+    <string name="config_font_color">글꼴 색상</string>
+    <string name="config_background_color">배경 색상</string>
+    
+    <!-- Section titles -->
+    <string name="section_basic_settings">기본 설정</string>
+    <string name="section_appearance_settings">외관 설정</string>
+    <string name="section_text_properties">텍스트 속성</string>
+    <string name="section_image_properties">이미지 속성</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">홈</string>
+    <string name="nav_about">정보</string>
+    
+    <!-- ItemCard config info strings -->
+    <string name="config_info_refresh_interval">새로고침 간격: %1$dms</string>
+    <string name="config_info_font_size">글꼴 크기: %1$s</string>
+    <string name="config_info_display_mode">표시 모드: %1$s</string>
+    
+    <!-- Network speed mode strings -->
+    <string name="network_mode_download_only">다운로드만</string>
+    <string name="network_mode_upload_only">업로드만</string>
+    <string name="network_mode_both">업로드+다운로드</string>
+
+    <!-- About Screen -->
+    <string name="about_title">플로트 마스터 정보</string>
+    <string name="about_version">버전 %1$s</string>
+    <string name="about_description">시간 표시, 네트워크 속도 모니터링, 마이크 제어 등 다양한 플로팅 기능을 지원하는 강력한 플로팅 윈도우 관리 앱 (드래그 가능, 마이크 제어는 가장자리를 길게 누른 후 드래그).</string>
+    <string name="about_developer">개발자</string>
+    <string name="about_developer_name">xmbest</string>
+    <string name="about_support">후원</string>
+    <string name="about_support_description">이 앱이 도움이 되셨다면 개발자 후원을 부탁드립니다</string>
+    <string name="payment_alipay">Alipay</string>
+    <string name="payment_wechat">WeChat Pay</string>
+    <string name="payment_close">닫기</string>
+    
+    <!-- Config Dialog Titles -->
+    <string name="config_title_mic_mute">마이크 상태 표시 설정</string>
+    <string name="config_title_time_display">시간 표시 설정</string>
+    <string name="config_title_network_speed">네트워크 속도 표시 설정</string>
+    
+    <!-- Section Titles -->
+    <string name="section_appearance_style">외관 스타일</string>
+    <string name="section_text_style">텍스트 스타일</string>
+    
+    <!-- Common Labels -->
+    <string name="label_confirm">확인</string>
+    <string name="label_width">너비</string>
+    <string name="label_height">높이</string>
+    <string name="label_time_format">시간 형식</string>
+    <string name="label_text_size">텍스트 크기</string>
+    <string name="label_font_weight">글꼴 굵기</string>
+    <string name="label_color_settings">색상 설정</string>
+    <string name="label_text_color">텍스트 색상</string>
+    <string name="label_icon_color">아이콘 색상</string>
+    
+    <!-- Time Format Options -->
+    <string name="time_format_full">전체 날짜 시간</string>
+    <string name="time_format_short">월일시분</string>
+    
+    <!-- Network Speed Mode Options -->
+    <string name="network_mode_both_desc">업로드 및 다운로드 속도 표시</string>
+    <string name="network_mode_download_desc">다운로드 속도만 표시</string>
+    <string name="network_mode_upload_desc">업로드 속도만 표시</string>
+    
+    <!-- Font Weight Options -->
+    <string name="font_weight_normal">보통</string>
+    <string name="font_weight_bold">굵게</string>
+    <string name="font_weight_light">가늘게</string>
+    <string name="font_weight_medium">중간</string>
+    <string name="font_weight_semibold">반굵게</string>
+    
+    <!-- Widget Descriptions -->
+    <string name="widget_network_speed_desc">네트워크 업로드 및 다운로드 속도를 실시간 표시</string>
+    <string name="widget_time_display_desc">현재 시간 표시</string>
+    
+    <!-- Timezone Options -->
+    <string name="label_timezone">시간대</string>
+    <string name="timezone_system_default">시스템 기본값</string>
+    <string name="timezone_beijing">베이징 시간 (Asia/Shanghai)</string>
+    <string name="timezone_tokyo">도쿄 시간 (Asia/Tokyo)</string>
+    <string name="timezone_new_york">뉴욕 시간 (America/New_York)</string>
+    <string name="timezone_london">런던 시간 (Europe/London)</string>
+    <string name="timezone_paris">파리 시간 (Europe/Paris)</string>
+    <string name="timezone_utc">UTC 시간 (UTC)</string>
+    
+    <!-- Config Labels -->
+    <string name="label_refresh_interval">새로고침 간격 (밀리초)</string>
+    
+    <!-- Time Format Descriptions -->
+    <string name="time_format_24h_with_seconds">24시간 형식 (14:30:25)</string>
+    <string name="time_format_12h_with_seconds">12시간 형식 (02:30:25 PM)</string>
+    <string name="time_format_24h_no_seconds">24시간 형식 (초 없음) (14:30)</string>
+    <string name="time_format_12h_no_seconds">12시간 형식 (초 없음) (02:30 PM)</string>
+</resources>

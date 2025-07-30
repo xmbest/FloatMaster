@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">FloatMaster</string>
+    <string name="app_title">Float Master</string>
+    <string name="task_icon">Icono de tarea</string>
+    <string name="audio_permission">Permiso de audio</string>
+    <string name="overlay_permission">Permiso de superposición</string>
+    <string name="missing_permissions_prefix">Permisos faltantes:\n</string>
+    <string name="mic_control">Control de micrófono</string>
+    <string name="permission_status">Estado de permisos</string>
+    <string name="grant_permission">Conceder permiso</string>
+    
+    <!-- ItemCard strings -->
+    <string name="coordinate_label">Posición: (%1$d, %2$d)</string>
+    <string name="size_label">Tamaño: %1$d×%2$d</string>
+    <string name="edit_item">Editar elemento</string>
+    <string name="pause_description">Pausar</string>
+    <string name="start_description">Iniciar</string>
+    
+    <!-- Widget titles -->
+    <string name="widget_time_display">Mostrar hora</string>
+    <string name="widget_network_speed">Velocidad de red</string>
+    <string name="widget_mic_mute">Control de micrófono</string>
+    
+    <!-- Dialog buttons -->
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_confirm">Aceptar</string>
+    
+    <!-- Config labels -->
+    <string name="config_refresh_interval">Intervalo de actualización</string>
+    <string name="config_format_string">Cadena de formato</string>
+    <string name="config_timezone">Zona horaria</string>
+    <string name="config_display_mode">Modo de visualización</string>
+    <string name="config_icon_size">Tamaño de icono</string>
+    <string name="config_transparency">Transparencia</string>
+    <string name="config_font_size">Tamaño de fuente</string>
+    <string name="config_font_color">Color de fuente</string>
+    <string name="config_background_color">Color de fondo</string>
+    
+    <!-- Section titles -->
+    <string name="section_basic_settings">Configuración básica</string>
+    <string name="section_appearance_settings">Configuración de apariencia</string>
+    <string name="section_text_properties">Propiedades del texto</string>
+    <string name="section_image_properties">Propiedades de imagen</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_about">Acerca de</string>
+    
+    <!-- ItemCard config info strings -->
+    <string name="config_info_refresh_interval">Intervalo de actualización: %1$dms</string>
+    <string name="config_info_font_size">Tamaño de fuente: %1$s</string>
+    <string name="config_info_display_mode">Modo de visualización: %1$s</string>
+    
+    <!-- Network speed mode strings -->
+    <string name="network_mode_download_only">Solo descarga</string>
+    <string name="network_mode_upload_only">Solo subida</string>
+    <string name="network_mode_both">Subida + Descarga</string>
+
+    <!-- About Screen -->
+    <string name="about_title">Acerca de Float Master</string>
+    <string name="about_version">Versión %1$s</string>
+    <string name="about_description">Una potente aplicación de gestión de ventanas flotantes que admite visualización de hora, monitoreo de velocidad de red, control de micrófono y otras funciones flotantes (arrastrable, el control del micrófono requiere presión larga en el borde y luego arrastrar).</string>
+    <string name="about_developer">Desarrollador</string>
+    <string name="about_developer_name">xmbest</string>
+    <string name="about_support">Apoyo</string>
+    <string name="about_support_description">Si encuentra útil esta aplicación, considere apoyar al desarrollador</string>
+    <string name="payment_alipay">Alipay</string>
+    <string name="payment_wechat">WeChat Pay</string>
+    <string name="payment_close">Cerrar</string>
+    
+    <!-- Config Dialog Titles -->
+    <string name="config_title_mic_mute">Configuración de visualización del estado del micrófono</string>
+    <string name="config_title_time_display">Configuración de visualización de hora</string>
+    <string name="config_title_network_speed">Configuración de visualización de velocidad de red</string>
+    
+    <!-- Section Titles -->
+    <string name="section_appearance_style">Estilo de apariencia</string>
+    <string name="section_text_style">Estilo de texto</string>
+    
+    <!-- Common Labels -->
+    <string name="label_confirm">Confirmar</string>
+    <string name="label_width">Ancho</string>
+    <string name="label_height">Alto</string>
+    <string name="label_time_format">Formato de hora</string>
+    <string name="label_text_size">Tamaño de texto</string>
+    <string name="label_font_weight">Grosor de fuente</string>
+    <string name="label_color_settings">Configuración de color</string>
+    <string name="label_text_color">Color de texto</string>
+    <string name="label_icon_color">Color de icono</string>
+    
+    <!-- Time Format Options -->
+    <string name="time_format_full">Fecha y hora completas</string>
+    <string name="time_format_short">Mes día hora minuto</string>
+    
+    <!-- Network Speed Mode Options -->
+    <string name="network_mode_both_desc">Mostrar velocidad de subida y descarga</string>
+    <string name="network_mode_download_desc">Mostrar solo velocidad de descarga</string>
+    <string name="network_mode_upload_desc">Mostrar solo velocidad de subida</string>
+    
+    <!-- Font Weight Options -->
+    <string name="font_weight_normal">Normal</string>
+    <string name="font_weight_bold">Negrita</string>
+    <string name="font_weight_light">Ligera</string>
+    <string name="font_weight_medium">Media</string>
+    <string name="font_weight_semibold">Semi-negrita</string>
+    
+    <!-- Widget Descriptions -->
+    <string name="widget_network_speed_desc">Visualización en tiempo real de la velocidad de subida y descarga de red</string>
+    <string name="widget_time_display_desc">Mostrar hora actual</string>
+    
+    <!-- Timezone Options -->
+    <string name="label_timezone">Zona horaria</string>
+    <string name="timezone_system_default">Predeterminado del sistema</string>
+    <string name="timezone_beijing">Hora de Pekín (Asia/Shanghai)</string>
+    <string name="timezone_tokyo">Hora de Tokio (Asia/Tokyo)</string>
+    <string name="timezone_new_york">Hora de Nueva York (America/New_York)</string>
+    <string name="timezone_london">Hora de Londres (Europe/London)</string>
+    <string name="timezone_paris">Hora de París (Europe/Paris)</string>
+    <string name="timezone_utc">Hora UTC (UTC)</string>
+    
+    <!-- Config Labels -->
+    <string name="label_refresh_interval">Intervalo de actualización (ms)</string>
+    
+    <!-- Time Format Descriptions -->
+    <string name="time_format_24h_with_seconds">Formato de 24 horas (14:30:25)</string>
+    <string name="time_format_12h_with_seconds">Formato de 12 horas (02:30:25 PM)</string>
+    <string name="time_format_24h_no_seconds">Formato de 24 horas sin segundos (14:30)</string>
+    <string name="time_format_12h_no_seconds">Formato de 12 horas sin segundos (02:30 PM)</string>
+</resources>

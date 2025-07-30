@@ -8,7 +8,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.xmbest.floatmaster.R
 import com.xmbest.floatmaster.model.TextProperties
 import com.xmbest.floatmaster.ui.component.ConfigSectionTitle
 import com.xmbest.floatmaster.ui.component.DropdownFieldWithDescription
@@ -39,16 +41,16 @@ fun TimeWidgetConfigDialog(
     
     // 预设时间格式
     val timeFormats = listOf(
-        Triple("HH:mm:ss", "HH:mm:ss", "24小时制 (14:30:25)"),
-        Triple("hh:mm:ss a", "hh:mm:ss a", "12小时制 (02:30:25 PM)"),
-        Triple("HH:mm", "HH:mm", "24小时制无秒 (14:30)"),
-        Triple("hh:mm a", "hh:mm a", "12小时制无秒 (02:30 PM)"),
-        Triple("yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss", "完整日期时间"),
-        Triple("MM-dd HH:mm", "MM-dd HH:mm", "月日时分")
+        Triple("HH:mm:ss", "HH:mm:ss", stringResource(R.string.time_format_24h_with_seconds)),
+        Triple("hh:mm:ss a", "hh:mm:ss a", stringResource(R.string.time_format_12h_with_seconds)),
+        Triple("HH:mm", "HH:mm", stringResource(R.string.time_format_24h_no_seconds)),
+        Triple("hh:mm a", "hh:mm a", stringResource(R.string.time_format_12h_no_seconds)),
+        Triple("yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss", stringResource(R.string.time_format_full)),
+        Triple("MM-dd HH:mm", "MM-dd HH:mm", stringResource(R.string.time_format_short))
     )
     
     BaseConfigDialog(
-        title = "时间显示配置",
+        title = stringResource(R.string.config_title_time_display),
         onDismiss = onDismiss,
         onConfirm = { onConfirm(config) }
     ) {
@@ -57,7 +59,7 @@ fun TimeWidgetConfigDialog(
             onValueChange = { newInterval ->
                 config = config.copy(refreshIntervalMs = newInterval)
             },
-            label = "刷新间隔 (毫秒)"
+            label = stringResource(R.string.label_refresh_interval)
         )
         
         Spacer(modifier = Modifier.height(16.dp))
@@ -68,22 +70,34 @@ fun TimeWidgetConfigDialog(
                 config = config.copy(formatStr = newFormat)
             },
             options = timeFormats,
-            label = "时间格式"
+            label = stringResource(R.string.label_time_format)
         )
         
         Spacer(modifier = Modifier.height(16.dp))
         
-        TextInputField(
+        // 时区选择
+        val timezones = listOf(
+            Triple("", stringResource(R.string.timezone_system_default), stringResource(R.string.timezone_system_default)),
+            Triple("Asia/Shanghai", stringResource(R.string.timezone_beijing), stringResource(R.string.timezone_beijing)),
+            Triple("Asia/Tokyo", stringResource(R.string.timezone_tokyo), stringResource(R.string.timezone_tokyo)),
+            Triple("America/New_York", stringResource(R.string.timezone_new_york), stringResource(R.string.timezone_new_york)),
+            Triple("Europe/London", stringResource(R.string.timezone_london), stringResource(R.string.timezone_london)),
+            Triple("Europe/Paris", stringResource(R.string.timezone_paris), stringResource(R.string.timezone_paris)),
+            Triple("UTC", stringResource(R.string.timezone_utc), stringResource(R.string.timezone_utc))
+        )
+        
+        DropdownFieldWithDescription(
             value = config.timeZone ?: "",
             onValueChange = { newTimeZone ->
                 config = config.copy(timeZone = if (newTimeZone.isBlank()) null else newTimeZone)
             },
-            label = "时区 (可选，如: Asia/Shanghai)"
+            options = timezones,
+            label = stringResource(R.string.label_timezone)
         )
         
         Spacer(modifier = Modifier.height(16.dp))
         
-        ConfigSectionTitle("文本样式")
+        ConfigSectionTitle(stringResource(R.string.section_text_style))
         
         TextPropertiesEditor(
              properties = config.textProperties,

@@ -58,11 +58,11 @@ fun TextPropertiesEditor(
     var fontWeight by remember { mutableStateOf(properties.fontWeight) }
     
     val fontWeights = listOf(
-        FontWeight.Normal to "正常",
-        FontWeight.Bold to "粗体",
-        FontWeight.Light to "细体",
-        FontWeight.Medium to "中等",
-        FontWeight.SemiBold to "半粗体"
+        FontWeight.Normal to stringResource(R.string.font_weight_normal),
+        FontWeight.Bold to stringResource(R.string.font_weight_bold),
+        FontWeight.Light to stringResource(R.string.font_weight_light),
+        FontWeight.Medium to stringResource(R.string.font_weight_medium),
+        FontWeight.SemiBold to stringResource(R.string.font_weight_semibold)
     )
     
     var fontWeightExpanded by remember { mutableStateOf(false) }
@@ -112,7 +112,7 @@ fun TextPropertiesEditor(
                     width = newWidth
                     onPropertiesChange(properties.copy(width = newWidth.dp))
                 },
-                label = { Text("宽度") },
+                label = { Text(stringResource(R.string.label_width)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.weight(1f)
             )
@@ -124,7 +124,7 @@ fun TextPropertiesEditor(
                     height = newHeight
                     onPropertiesChange(properties.copy(height = newHeight.dp))
                 },
-                label = { Text("高度") },
+                label = { Text(stringResource(R.string.label_height)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.weight(1f)
             )
@@ -140,7 +140,7 @@ fun TextPropertiesEditor(
                 textSize = newSize
                 onPropertiesChange(properties.copy(textSize = newSize.sp))
             },
-            label = { Text("文本大小") },
+            label = { Text(stringResource(R.string.label_text_size)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
         )
@@ -154,10 +154,10 @@ fun TextPropertiesEditor(
             modifier = Modifier.fillMaxWidth()
         ) {
             OutlinedTextField(
-                value = fontWeights.find { it.first == fontWeight }?.second ?: "正常",
+                value = fontWeights.find { it.first == fontWeight }?.second ?: stringResource(R.string.font_weight_normal),
                 onValueChange = { },
                 readOnly = true,
-                label = { Text("字体粗细") },
+                label = { Text(stringResource(R.string.label_font_weight)) },
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = fontWeightExpanded)
                 },
@@ -187,7 +187,7 @@ fun TextPropertiesEditor(
         
         // 颜色设置
         Text(
-            text = "颜色设置",
+            text = stringResource(R.string.label_color_settings),
             style = MaterialTheme.typography.titleSmall,
             modifier = Modifier.padding(vertical = 8.dp)
         )
@@ -199,7 +199,7 @@ fun TextPropertiesEditor(
         ) {
             // 文本颜色
             Column {
-                Text("文本颜色", style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.label_text_color), style = MaterialTheme.typography.bodySmall)
                 Spacer(modifier = Modifier.height(4.dp))
                 ColorPicker(
                     color = textColor,

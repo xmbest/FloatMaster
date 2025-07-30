@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">FloatMaster</string>
+    <string name="app_title">フロートマスター</string>
+    <string name="task_icon">タスクアイコン</string>
+    <string name="audio_permission">録音権限</string>
+    <string name="overlay_permission">オーバーレイ権限</string>
+    <string name="missing_permissions_prefix">以下の権限が不足しています：\n</string>
+    <string name="mic_control">マイク制御</string>
+    <string name="permission_status">権限状態</string>
+    <string name="grant_permission">権限を付与</string>
+    
+    <!-- ItemCard strings -->
+    <string name="coordinate_label">座標: (%1$d, %2$d)</string>
+    <string name="size_label">サイズ: %1$d×%2$d</string>
+    <string name="edit_item">アイテム編集</string>
+    <string name="pause_description">一時停止</string>
+    <string name="start_description">開始</string>
+    
+    <!-- Widget titles -->
+    <string name="widget_time_display">時刻表示</string>
+    <string name="widget_network_speed">ネットワーク速度</string>
+    <string name="widget_mic_mute">マイク制御</string>
+    
+    <!-- Dialog buttons -->
+    <string name="dialog_cancel">キャンセル</string>
+    <string name="dialog_confirm">確定</string>
+    
+    <!-- Config labels -->
+    <string name="config_refresh_interval">更新間隔</string>
+    <string name="config_format_string">フォーマット文字列</string>
+    <string name="config_timezone">タイムゾーン</string>
+    <string name="config_display_mode">表示モード</string>
+    <string name="config_icon_size">アイコンサイズ</string>
+    <string name="config_transparency">透明度</string>
+    <string name="config_font_size">フォントサイズ</string>
+    <string name="config_font_color">フォント色</string>
+    <string name="config_background_color">背景色</string>
+    
+    <!-- Section titles -->
+    <string name="section_basic_settings">基本設定</string>
+    <string name="section_appearance_settings">外観設定</string>
+    <string name="section_text_properties">テキストプロパティ</string>
+    <string name="section_image_properties">画像プロパティ</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">ホーム</string>
+    <string name="nav_about">について</string>
+    
+    <!-- ItemCard config info strings -->
+    <string name="config_info_refresh_interval">更新間隔: %1$dms</string>
+    <string name="config_info_font_size">フォントサイズ: %1$s</string>
+    <string name="config_info_display_mode">表示モード: %1$s</string>
+    
+    <!-- Network speed mode strings -->
+    <string name="network_mode_download_only">ダウンロードのみ</string>
+    <string name="network_mode_upload_only">アップロードのみ</string>
+    <string name="network_mode_both">アップロード+ダウンロード</string>
+
+    <!-- About Screen -->
+    <string name="about_title">フロートマスターについて</string>
+    <string name="about_version">バージョン %1$s</string>
+    <string name="about_description">時刻表示、ネットワーク速度監視、マイク制御など、多様なフローティング機能をサポートする強力なフローティングウィンドウ管理アプリ（ドラッグ可能、マイク制御は端をロングプレス後ドラッグ）。</string>
+    <string name="about_developer">開発者</string>
+    <string name="about_developer_name">xmbest</string>
+    <string name="about_support">サポート</string>
+    <string name="about_support_description">このアプリが役に立つと思われましたら、開発者へのサポートをお願いします</string>
+    <string name="payment_alipay">Alipay</string>
+    <string name="payment_wechat">WeChat Pay</string>
+    <string name="payment_close">閉じる</string>
+    
+    <!-- Config Dialog Titles -->
+    <string name="config_title_mic_mute">マイク状態表示設定</string>
+    <string name="config_title_time_display">時刻表示設定</string>
+    <string name="config_title_network_speed">ネットワーク速度表示設定</string>
+    
+    <!-- Section Titles -->
+    <string name="section_appearance_style">外観スタイル</string>
+    <string name="section_text_style">テキストスタイル</string>
+    
+    <!-- Common Labels -->
+    <string name="label_confirm">確認</string>
+    <string name="label_width">幅</string>
+    <string name="label_height">高さ</string>
+    <string name="label_time_format">時刻フォーマット</string>
+    <string name="label_text_size">テキストサイズ</string>
+    <string name="label_font_weight">フォント太さ</string>
+    <string name="label_color_settings">色設定</string>
+    <string name="label_text_color">テキスト色</string>
+    <string name="label_icon_color">アイコン色</string>
+    
+    <!-- Time Format Options -->
+    <string name="time_format_full">完全な日時</string>
+    <string name="time_format_short">月日時分</string>
+    
+    <!-- Network Speed Mode Options -->
+    <string name="network_mode_both_desc">アップロードとダウンロード速度を表示</string>
+    <string name="network_mode_download_desc">ダウンロード速度のみ表示</string>
+    <string name="network_mode_upload_desc">アップロード速度のみ表示</string>
+    
+    <!-- Font Weight Options -->
+    <string name="font_weight_normal">標準</string>
+    <string name="font_weight_bold">太字</string>
+    <string name="font_weight_light">細字</string>
+    <string name="font_weight_medium">中太</string>
+    <string name="font_weight_semibold">半太字</string>
+    
+    <!-- Widget Descriptions -->
+    <string name="widget_network_speed_desc">ネットワークのアップロード・ダウンロード速度をリアルタイム表示</string>
+    <string name="widget_time_display_desc">現在時刻を表示</string>
+    
+    <!-- Timezone Options -->
+    <string name="label_timezone">タイムゾーン</string>
+    <string name="timezone_system_default">システムデフォルト</string>
+    <string name="timezone_beijing">北京時間 (Asia/Shanghai)</string>
+    <string name="timezone_tokyo">東京時間 (Asia/Tokyo)</string>
+    <string name="timezone_new_york">ニューヨーク時間 (America/New_York)</string>
+    <string name="timezone_london">ロンドン時間 (Europe/London)</string>
+    <string name="timezone_paris">パリ時間 (Europe/Paris)</string>
+    <string name="timezone_utc">UTC時間 (UTC)</string>
+    
+    <!-- Config Labels -->
+    <string name="label_refresh_interval">更新間隔 (ミリ秒)</string>
+    
+    <!-- Time Format Descriptions -->
+    <string name="time_format_24h_with_seconds">24時間形式 (14:30:25)</string>
+    <string name="time_format_12h_with_seconds">12時間形式 (02:30:25 PM)</string>
+    <string name="time_format_24h_no_seconds">24時間形式（秒なし） (14:30)</string>
+    <string name="time_format_12h_no_seconds">12時間形式（秒なし） (02:30 PM)</string>
+</resources>

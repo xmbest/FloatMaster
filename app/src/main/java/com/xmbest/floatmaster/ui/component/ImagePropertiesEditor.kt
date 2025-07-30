@@ -85,7 +85,7 @@ fun ImagePropertiesEditor(
                     width = newWidth
                     onPropertiesChange(properties.copy(width = newWidth))
                 },
-                label = { Text("宽度") },
+                label = { Text(stringResource(R.string.label_width)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.weight(1f)
             )
@@ -97,7 +97,7 @@ fun ImagePropertiesEditor(
                     height = newHeight
                     onPropertiesChange(properties.copy(height = newHeight))
                 },
-                label = { Text("高度") },
+                label = { Text(stringResource(R.string.label_height)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.weight(1f)
             )
@@ -107,7 +107,7 @@ fun ImagePropertiesEditor(
         
         // 颜色设置
         Text(
-            text = "颜色设置",
+            text = stringResource(R.string.label_color_settings),
             style = MaterialTheme.typography.titleSmall,
             modifier = Modifier.padding(vertical = 8.dp)
         )
@@ -119,7 +119,7 @@ fun ImagePropertiesEditor(
         ) {
             // 前景颜色（图标颜色）
             Column {
-                Text("图标颜色", style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.label_icon_color), style = MaterialTheme.typography.bodySmall)
                 Spacer(modifier = Modifier.height(4.dp))
                 ColorPicker(
                     color = color,

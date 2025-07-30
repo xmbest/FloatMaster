@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.api.ApkVariantOutputImpl
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -15,19 +17,42 @@ android {
         applicationId = "com.xmbest.floatmaster"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 100_000_000
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("xmbest") {
+            storeFile = file("../sign/xmbest.jks")
+            storePassword = "xmbest"
+            keyAlias = "xmbest"
+            keyPassword = "xmbest"
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.findByName("xmbest")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            applicationVariants.all {
+                outputs.all {
+                    if (this is ApkVariantOutputImpl) {
+                        this.outputFileName =
+                            "floatMaster-${versionName}.apk"
+                    }
+                }
+            }
+        }
+        debug {
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.findByName("xmbest")
         }
     }
     compileOptions {

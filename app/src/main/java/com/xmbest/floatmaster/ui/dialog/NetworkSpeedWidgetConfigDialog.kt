@@ -40,13 +40,13 @@ fun NetworkSpeedWidgetConfigDialog(
     var config by remember { mutableStateOf(initialConfig) }
     
     val displayModes = listOf(
-        Triple(NetworkSpeedMode.BOTH, "上传+下载", "显示上传和下载速度"),
-        Triple(NetworkSpeedMode.DOWNLOAD_ONLY, "仅下载", "仅显示下载速度"),
-        Triple(NetworkSpeedMode.UPLOAD_ONLY, "仅上传", "仅显示上传速度")
+        Triple(NetworkSpeedMode.BOTH, stringResource(R.string.network_mode_both), stringResource(R.string.network_mode_both_desc)),
+        Triple(NetworkSpeedMode.DOWNLOAD_ONLY, stringResource(R.string.network_mode_download_only), stringResource(R.string.network_mode_download_desc)),
+        Triple(NetworkSpeedMode.UPLOAD_ONLY, stringResource(R.string.network_mode_upload_only), stringResource(R.string.network_mode_upload_desc))
     )
     
     BaseConfigDialog(
-        title = "网络速度显示配置",
+        title = stringResource(R.string.config_title_network_speed),
         onDismiss = onDismiss,
         onConfirm = { onConfirm(config) }
     ) {
@@ -55,7 +55,7 @@ fun NetworkSpeedWidgetConfigDialog(
             onValueChange = { newInterval ->
                 config = config.copy(refreshIntervalMs = newInterval)
             },
-            label = "刷新间隔 (毫秒)"
+            label = stringResource(R.string.label_refresh_interval)
         )
         
         Spacer(modifier = Modifier.height(16.dp))
@@ -71,7 +71,7 @@ fun NetworkSpeedWidgetConfigDialog(
         
         Spacer(modifier = Modifier.height(16.dp))
         
-        ConfigSectionTitle("文本样式")
+        ConfigSectionTitle(stringResource(R.string.section_text_style))
         
         TextPropertiesEditor(
             properties = config.textProperties,

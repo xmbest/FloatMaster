@@ -64,7 +64,7 @@ fun getFloatWidgetItems(): List<FloatWidgetItem> {
         FloatWidgetItem(
             id = WidgetConstants.WIDGET_ID_NETWORK_SPEED,
             title = stringResource(R.string.widget_network_speed),
-            description = "实时显示网络上下行速度",
+            description = context.getString(R.string.widget_network_speed_desc),
             icon = Icons.Default.NetworkCheck,
             permissionChecker = { 
                 // 所有悬浮窗都需要悬浮窗权限
@@ -77,7 +77,7 @@ fun getFloatWidgetItems(): List<FloatWidgetItem> {
         FloatWidgetItem(
             id = WidgetConstants.WIDGET_ID_TIME_DISPLAY,
             title = stringResource(R.string.widget_time_display),
-            description = "显示当前时间",
+            description = context.getString(R.string.widget_time_display_desc),
             icon = Icons.Default.AccessTime,
             permissionChecker = { 
                 // 所有悬浮窗都需要悬浮窗权限

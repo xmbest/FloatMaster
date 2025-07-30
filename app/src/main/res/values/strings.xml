@@ -61,10 +61,69 @@
     <string name="about_version">版本 %1$s</string>
     <string name="about_description">一个功能强大的悬浮窗管理应用，支持时间显示、网络速度监控、麦克风控制等多种悬浮功能（可拖拽、麦克风控制需要长按边缘后拖拽）。</string>
     <string name="about_developer">开发者</string>
-    <string name="about_developer_name">XMBest</string>
+    <string name="about_developer_name">xmbest</string>
     <string name="about_support">赞赏支持</string>
     <string name="about_support_description">如果您觉得这个应用对您有帮助，欢迎赞赏支持开发者</string>
     <string name="payment_alipay">支付宝</string>
     <string name="payment_wechat">微信支付</string>
     <string name="payment_close">关闭</string>
+    
+    <!-- Config Dialog Titles -->
+    <string name="config_title_mic_mute">麦克风状态显示配置</string>
+    <string name="config_title_time_display">时间显示配置</string>
+    <string name="config_title_network_speed">网络速度显示配置</string>
+    
+    <!-- Section Titles -->
+    <string name="section_appearance_style">外观样式</string>
+    <string name="section_text_style">文本样式</string>
+    
+    <!-- Common Labels -->
+    <string name="label_confirm">确认</string>
+    <string name="label_width">宽度</string>
+    <string name="label_height">高度</string>
+    <string name="label_time_format">时间格式</string>
+    <string name="label_text_size">文本大小</string>
+    <string name="label_font_weight">字体粗细</string>
+    <string name="label_color_settings">颜色设置</string>
+    <string name="label_text_color">文本颜色</string>
+    <string name="label_icon_color">图标颜色</string>
+    
+    <!-- Time Format Options -->
+    <string name="time_format_full">完整日期时间</string>
+    <string name="time_format_short">月日时分</string>
+    
+    <!-- Network Speed Mode Options -->
+    <string name="network_mode_both_desc">显示上传和下载速度</string>
+    <string name="network_mode_download_desc">仅显示下载速度</string>
+    <string name="network_mode_upload_desc">仅显示上传速度</string>
+    
+    <!-- Font Weight Options -->
+    <string name="font_weight_normal">正常</string>
+    <string name="font_weight_bold">粗体</string>
+    <string name="font_weight_light">细体</string>
+    <string name="font_weight_medium">中等</string>
+    <string name="font_weight_semibold">半粗体</string>
+    
+    <!-- Widget Descriptions -->
+    <string name="widget_network_speed_desc">实时显示网络上下行速度</string>
+    <string name="widget_time_display_desc">显示当前时间</string>
+    
+    <!-- Timezone Options -->
+    <string name="label_timezone">时区</string>
+    <string name="timezone_system_default">系统默认</string>
+    <string name="timezone_beijing">北京时间 (Asia/Shanghai)</string>
+    <string name="timezone_tokyo">东京时间 (Asia/Tokyo)</string>
+    <string name="timezone_new_york">纽约时间 (America/New_York)</string>
+    <string name="timezone_london">伦敦时间 (Europe/London)</string>
+    <string name="timezone_paris">巴黎时间 (Europe/Paris)</string>
+    <string name="timezone_utc">UTC时间 (UTC)</string>
+    
+    <!-- Config Labels -->
+    <string name="label_refresh_interval">刷新间隔 (毫秒)</string>
+    
+    <!-- Time Format Descriptions -->
+    <string name="time_format_24h_with_seconds">24小时制 (14:30:25)</string>
+    <string name="time_format_12h_with_seconds">12小时制 (02:30:25 PM)</string>
+    <string name="time_format_24h_no_seconds">24小时制无秒 (14:30)</string>
+    <string name="time_format_12h_no_seconds">12小时制无秒 (02:30 PM)</string>
 </resources>
