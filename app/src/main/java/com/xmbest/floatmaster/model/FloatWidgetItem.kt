@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import com.xmbest.floatmaster.R
+import com.xmbest.floatmaster.model.Permission
 import com.xmbest.floatmaster.ui.widget.MicMuteWidget
 import com.xmbest.floatmaster.ui.widget.NetworkSpeedWidget
 import com.xmbest.floatmaster.ui.widget.TimeWidget
@@ -49,6 +50,8 @@ fun getFloatWidgetItems(): List<FloatWidgetItem> {
             description = "快速静音/取消静音麦克风",
             icon = Icons.Default.Mic,
             permissionChecker = { 
+                // 悬浮窗权限是必需的，同时检查麦克风权限
+                Permission.OVERLAY.isGranted(context) && 
                 ContextCompat.checkSelfPermission(
                     context,
                     Manifest.permission.RECORD_AUDIO
@@ -63,7 +66,10 @@ fun getFloatWidgetItems(): List<FloatWidgetItem> {
             title = stringResource(R.string.widget_network_speed),
             description = "实时显示网络上下行速度",
             icon = Icons.Default.NetworkCheck,
-            permissionChecker = { true }, // 网速监控不需要特殊权限
+            permissionChecker = { 
+                // 所有悬浮窗都需要悬浮窗权限
+                Permission.OVERLAY.isGranted(context)
+            },
             widgetComposer = {
                 NetworkSpeedWidget()
             }
@@ -73,7 +79,10 @@ fun getFloatWidgetItems(): List<FloatWidgetItem> {
             title = stringResource(R.string.widget_time_display),
             description = "显示当前时间",
             icon = Icons.Default.AccessTime,
-            permissionChecker = { true }, // 时间显示不需要特殊权限
+            permissionChecker = { 
+                // 所有悬浮窗都需要悬浮窗权限
+                Permission.OVERLAY.isGranted(context)
+            },
             widgetComposer = {
                 TimeWidget()
             }

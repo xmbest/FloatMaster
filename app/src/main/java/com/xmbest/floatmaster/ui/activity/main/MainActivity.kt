@@ -18,6 +18,9 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -53,6 +56,13 @@ class MainActivity : ComponentActivity() {
             normalPermissionLauncher = requestPermissionLauncher,
             overlayPermissionLauncher = overlayPermissionLauncher
         )
+
+        // 监听权限请求事件
+        lifecycleScope.launch {
+            viewModel.permissionRequest.collect { permission ->
+                handlePermissionRequest(permission)
+            }
+        }
 
         setContent {
             val state by viewModel.state.collectAsState()
@@ -100,6 +110,15 @@ class MainActivity : ComponentActivity() {
                 permission = Permission.OVERLAY,
                 isGranted = isGranted
             )
+        )
+    }
+    
+    private fun handlePermissionRequest(permission: Permission) {
+        currentRequestedPermission = permission
+        permissionManager.requestPermissionSmart(
+            permission = permission,
+            normalPermissionLauncher = requestPermissionLauncher,
+            overlayPermissionLauncher = overlayPermissionLauncher
         )
     }
 }

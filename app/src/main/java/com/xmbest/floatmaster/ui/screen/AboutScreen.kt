@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.xmbest.floatmaster.BuildConfig
 import com.xmbest.floatmaster.R
+import androidx.core.net.toUri
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -100,7 +101,7 @@ fun AboutScreen() {
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.clickable {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/xmbest"))
+                    val intent = Intent(Intent.ACTION_VIEW, "https://github.com/xmbest".toUri())
                     context.startActivity(intent)
                 }
             )

@@ -18,7 +18,7 @@ import com.xmbest.floatmaster.ui.dialog.MicMuteWidgetConfig
 fun WidgetConfigDialogs(
     configManager: WidgetConfigManager,
     widgetFactory: WidgetFactory,
-    activeStates: Map<String, Boolean>
+    onWidgetRecreated: () -> Unit
 ) {
     // 时间Widget配置对话框
     if (configManager.showTimeConfigDialog) {
@@ -28,8 +28,11 @@ fun WidgetConfigDialogs(
                 configManager.hideAllConfigDialogs()
             },
             onConfirm = { config ->
-                val isActive = activeStates[configManager.currentConfigWidgetId] == true
+                val isActive = widgetFactory.floatWindowManager.hasView(configManager.currentConfigWidgetId)
                 widgetFactory.handleConfigUpdate(configManager.currentConfigWidgetId, config, isActive)
+                if (isActive) {
+                    onWidgetRecreated()
+                }
                 configManager.hideAllConfigDialogs()
             }
         )
@@ -43,8 +46,11 @@ fun WidgetConfigDialogs(
                 configManager.hideAllConfigDialogs()
             },
             onConfirm = { config ->
-                val isActive = activeStates[configManager.currentConfigWidgetId] == true
+                val isActive = widgetFactory.floatWindowManager.hasView(configManager.currentConfigWidgetId)
                 widgetFactory.handleConfigUpdate(configManager.currentConfigWidgetId, config, isActive)
+                if (isActive) {
+                    onWidgetRecreated()
+                }
                 configManager.hideAllConfigDialogs()
             }
         )
@@ -58,8 +64,11 @@ fun WidgetConfigDialogs(
                 configManager.hideAllConfigDialogs()
             },
             onConfirm = { config ->
-                val isActive = activeStates[configManager.currentConfigWidgetId] == true
+                val isActive = widgetFactory.floatWindowManager.hasView(configManager.currentConfigWidgetId)
                 widgetFactory.handleConfigUpdate(configManager.currentConfigWidgetId, config, isActive)
+                if (isActive) {
+                    onWidgetRecreated()
+                }
                 configManager.hideAllConfigDialogs()
             }
         )

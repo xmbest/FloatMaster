@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 /**
@@ -21,9 +22,9 @@ data class TextProperties(
     val backgroundColor: Color = Color.Transparent,
     val textColor: Color = Color.Black,
     val textSize: TextUnit = 16.sp,
-    val width: Dp = Dp.Unspecified,
-    val height: Dp = Dp.Unspecified,
+    val width: Dp = 300.dp,
+    val height: Dp = 120.dp,
     val fontWeight: FontWeight = FontWeight.Normal,
-    val x: Float = 0f,
-    val y: Float = 0f
+    val x: Float = 100f,
+    val y: Float = 100f
 )

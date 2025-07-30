@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.Color
 data class ImageProperties(
     val backgroundColor: Color = Color.Transparent, // 蓝色背景，更容易看到
     val color: Color = Color.Black, // 白色图标
-    val width: Float = 300f,
-    val height: Float = 300f,
+    val width: Float = 180f,
+    val height: Float = 180f,
     val x: Float = 100f,
     val y: Float = 100f
 )

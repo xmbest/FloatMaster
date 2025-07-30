@@ -7,8 +7,8 @@ import androidx.compose.ui.unit.isSpecified
  * 悬浮窗位置和尺寸配置
  */
 data class WindowPosition(
-    val x: Int = 0,
-    val y: Int = 0,
+    val x: Float = 0f,
+    val y: Float = 0f,
     val width: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     val height: Int = ViewGroup.LayoutParams.WRAP_CONTENT
 ) {
@@ -18,8 +18,8 @@ data class WindowPosition(
          */
         fun fromImageProperties(imageProperties: ImageProperties): WindowPosition {
             return WindowPosition(
-                x = imageProperties.x.toInt(),
-                y = imageProperties.y.toInt(),
+                x = imageProperties.x,
+                y = imageProperties.y,
                 width = imageProperties.width.toInt(),
                 height = imageProperties.height.toInt()
             )
@@ -40,8 +40,8 @@ data class WindowPosition(
                 ViewGroup.LayoutParams.WRAP_CONTENT
             }
             return WindowPosition(
-                x = textProperties.x.toInt(),
-                y = textProperties.y.toInt(),
+                x = textProperties.x,
+                y = textProperties.y,
                 width = width,
                 height = height
             )

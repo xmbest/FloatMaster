@@ -10,15 +10,23 @@ import com.xmbest.floatmaster.ui.dialog.MicMuteWidgetConfig
 import com.xmbest.floatmaster.ui.widget.TimeWidget
 import com.xmbest.floatmaster.ui.widget.NetworkSpeedWidget
 import com.xmbest.floatmaster.ui.widget.MicMuteWidget
+import com.xmbest.floatmaster.model.WindowPosition
 
 /**
  * Widget工厂类
  * 统一处理Widget的创建、激活、停用和重新创建逻辑
  */
 class WidgetFactory(
-    private val floatWindowManager: FloatWindowManager,
+    val floatWindowManager: FloatWindowManager,
     private val configManager: WidgetConfigManager
 ) {
+    
+    init {
+        // 设置位置变化监听器，当悬浮窗拖拽结束时保存新位置
+        floatWindowManager.onPositionChanged = { id, x, y, width, height ->
+            configManager.updateWidgetPosition(id, x, y, width, height)
+        }
+    }
     
     /**
      * 激活Widget
@@ -27,6 +35,12 @@ class WidgetFactory(
         when (widgetItem.id) {
             WidgetConstants.WIDGET_ID_TIME_DISPLAY -> {
                 val config = configManager.getConfig(widgetItem.id) as? TimeWidgetConfig ?: TimeWidgetConfig()
+                val position = WindowPosition(
+                    x = config.textProperties.x,
+                    y = config.textProperties.y,
+                    width = config.textProperties.width.value.toInt(),
+                    height = config.textProperties.height.value.toInt()
+                )
                 floatWindowManager.addComposeView(
                     id = widgetItem.id,
                     content = {
@@ -37,11 +51,17 @@ class WidgetFactory(
                             textProperties = config.textProperties
                         )
                     },
-                    textProperties = config.textProperties
+                    position = position
                 )
             }
             WidgetConstants.WIDGET_ID_NETWORK_SPEED -> {
                 val config = configManager.getConfig(widgetItem.id) as? NetworkSpeedWidgetConfig ?: NetworkSpeedWidgetConfig()
+                val position = WindowPosition(
+                    x = config.textProperties.x,
+                    y = config.textProperties.y,
+                    width = config.textProperties.width.value.toInt(),
+                    height = config.textProperties.height.value.toInt()
+                )
                 floatWindowManager.addComposeView(
                     id = widgetItem.id,
                     content = {
@@ -51,11 +71,17 @@ class WidgetFactory(
                             textProperties = config.textProperties
                         )
                     },
-                    textProperties = config.textProperties
+                    position = position
                 )
             }
             WidgetConstants.WIDGET_ID_MIC_MUTE -> {
                 val config = configManager.getConfig(widgetItem.id) as? MicMuteWidgetConfig ?: MicMuteWidgetConfig()
+                val position = WindowPosition(
+                    x = config.imageProperties.x,
+                    y = config.imageProperties.y,
+                    width = config.imageProperties.width.toInt(),
+                    height = config.imageProperties.height.toInt()
+                )
                 floatWindowManager.addComposeView(
                     id = widgetItem.id,
                     content = {
@@ -63,7 +89,7 @@ class WidgetFactory(
                             imageProperties = config.imageProperties
                         )
                     },
-                    imageProperties = config.imageProperties
+                    position = position
                 )
             }
             else -> {
@@ -95,6 +121,12 @@ class WidgetFactory(
         when (widgetId) {
             WidgetConstants.WIDGET_ID_TIME_DISPLAY -> {
                 val config = configManager.getConfig(widgetId) as? TimeWidgetConfig ?: TimeWidgetConfig()
+                val position = WindowPosition(
+                    x = config.textProperties.x,
+                    y = config.textProperties.y,
+                    width = config.textProperties.width.value.toInt(),
+                    height = config.textProperties.height.value.toInt()
+                )
                 floatWindowManager.addComposeView(
                     id = widgetId,
                     content = {
@@ -105,11 +137,17 @@ class WidgetFactory(
                             textProperties = config.textProperties
                         )
                     },
-                    textProperties = config.textProperties
+                    position = position
                 )
             }
             WidgetConstants.WIDGET_ID_NETWORK_SPEED -> {
                 val config = configManager.getConfig(widgetId) as? NetworkSpeedWidgetConfig ?: NetworkSpeedWidgetConfig()
+                val position = WindowPosition(
+                    x = config.textProperties.x,
+                    y = config.textProperties.y,
+                    width = config.textProperties.width.value.toInt(),
+                    height = config.textProperties.height.value.toInt()
+                )
                 floatWindowManager.addComposeView(
                     id = widgetId,
                     content = {
@@ -119,11 +157,17 @@ class WidgetFactory(
                             textProperties = config.textProperties
                         )
                     },
-                    textProperties = config.textProperties
+                    position = position
                 )
             }
             WidgetConstants.WIDGET_ID_MIC_MUTE -> {
                 val config = configManager.getConfig(widgetId) as? MicMuteWidgetConfig ?: MicMuteWidgetConfig()
+                val position = WindowPosition(
+                    x = config.imageProperties.x,
+                    y = config.imageProperties.y,
+                    width = config.imageProperties.width.toInt(),
+                    height = config.imageProperties.height.toInt()
+                )
                 floatWindowManager.addComposeView(
                     id = widgetId,
                     content = {
@@ -131,7 +175,7 @@ class WidgetFactory(
                             imageProperties = config.imageProperties
                         )
                     },
-                    imageProperties = config.imageProperties
+                    position = position
                 )
             }
         }
@@ -143,6 +187,37 @@ class WidgetFactory(
     fun handleConfigUpdate(widgetId: String, config: Any, isActive: Boolean) {
         // 更新配置
         configManager.updateConfig(widgetId, config)
+        
+        // 同步更新位置信息
+        when (config) {
+            is TimeWidgetConfig -> {
+                configManager.updateWidgetPosition(
+                    widgetId, 
+                    config.textProperties.x, 
+                    config.textProperties.y,
+                    config.textProperties.width.value,
+                    config.textProperties.height.value
+                )
+            }
+            is NetworkSpeedWidgetConfig -> {
+                configManager.updateWidgetPosition(
+                    widgetId, 
+                    config.textProperties.x, 
+                    config.textProperties.y,
+                    config.textProperties.width.value,
+                    config.textProperties.height.value
+                )
+            }
+            is MicMuteWidgetConfig -> {
+                configManager.updateWidgetPosition(
+                    widgetId, 
+                    config.imageProperties.x, 
+                    config.imageProperties.y,
+                    config.imageProperties.width,
+                    config.imageProperties.height
+                )
+            }
+        }
         
         // 如果Widget正在运行，重新创建以应用新配置
         if (isActive) {

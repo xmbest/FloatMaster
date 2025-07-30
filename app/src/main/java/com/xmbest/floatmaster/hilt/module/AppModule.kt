@@ -2,6 +2,8 @@ package com.xmbest.floatmaster.hilt.module
 
 import android.content.Context
 import com.xmbest.floatmaster.manager.FloatWindowManager
+import com.xmbest.floatmaster.manager.WidgetConfigManager
+import com.xmbest.floatmaster.factory.WidgetFactory
 import com.xmbest.floatmaster.module.DataStoreModule
 import dagger.Module
 import dagger.Provides
@@ -20,6 +22,18 @@ object AppModule {
     @Singleton
     fun provideFloatWindowManager(@ApplicationContext context: Context) =
         FloatWindowManager(context)
+
+    @Provides
+    @Singleton
+    fun provideWidgetConfigManager(@ApplicationContext context: Context) =
+        WidgetConfigManager(context)
+
+    @Provides
+    @Singleton
+    fun provideWidgetFactory(
+        floatWindowManager: FloatWindowManager,
+        configManager: WidgetConfigManager
+    ) = WidgetFactory(floatWindowManager, configManager)
 
     @Provides
     @Singleton

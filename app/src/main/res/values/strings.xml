@@ -19,7 +19,7 @@
     <!-- Widget titles -->
     <string name="widget_time_display">时间显示</string>
     <string name="widget_network_speed">网络速度</string>
-    <string name="widget_mic_mute">麦克风静音</string>
+    <string name="widget_mic_mute">麦克风控制</string>
     
     <!-- Dialog buttons -->
     <string name="dialog_cancel">取消</string>
@@ -46,10 +46,20 @@
     <string name="nav_home">首页</string>
     <string name="nav_about">关于</string>
     
+    <!-- ItemCard config info strings -->
+    <string name="config_info_refresh_interval">刷新间隔: %1$dms</string>
+    <string name="config_info_font_size">字体大小: %1$s</string>
+    <string name="config_info_display_mode">显示模式: %1$s</string>
+    
+    <!-- Network speed mode strings -->
+    <string name="network_mode_download_only">仅下载</string>
+    <string name="network_mode_upload_only">仅上传</string>
+    <string name="network_mode_both">上传+下载</string>
+
     <!-- About Screen -->
     <string name="about_title">关于悬浮大师</string>
     <string name="about_version">版本 %1$s</string>
-    <string name="about_description">一个功能强大的悬浮窗管理应用，支持时间显示、网络速度监控、麦克风控制等多种悬浮功能。</string>
+    <string name="about_description">一个功能强大的悬浮窗管理应用，支持时间显示、网络速度监控、麦克风控制等多种悬浮功能（可拖拽、麦克风控制需要长按边缘后拖拽）。</string>
     <string name="about_developer">开发者</string>
     <string name="about_developer_name">XMBest</string>
     <string name="about_support">赞赏支持</string>

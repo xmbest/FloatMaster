@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.xmbest.floatmaster.model.Permission
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -18,6 +21,9 @@ class MainViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(MainState())
     val state: StateFlow<MainState> = _state.asStateFlow()
+    
+    private val _permissionRequest = MutableSharedFlow<Permission>()
+    val permissionRequest: SharedFlow<Permission> = _permissionRequest.asSharedFlow()
 
     fun handleIntent(intent: MainIntent) {
         when (intent) {
@@ -26,6 +32,7 @@ class MainViewModel @Inject constructor(
                 intent.permission,
                 intent.isGranted
             )
+            is MainIntent.RequestPermission -> requestPermission(intent.permission)
         }
     }
 
@@ -41,5 +48,11 @@ class MainViewModel @Inject constructor(
 
     private fun handlePermissionResult(permission: Permission, isGranted: Boolean) {
         _state.value = _state.value.updatePermission(permission, isGranted)
+    }
+    
+    private fun requestPermission(permission: Permission) {
+        viewModelScope.launch {
+            _permissionRequest.emit(permission)
+        }
     }
 }

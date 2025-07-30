@@ -1,4 +1,4 @@
-package com.xmbest.floatmaster.ui.screen
+package com.xmbest.floatmaster.ui.screen.home
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -12,28 +12,38 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.foundation.layout.FlowRow
 import com.xmbest.floatmaster.manager.FloatWindowManager
-import com.xmbest.floatmaster.manager.rememberWidgetConfigManager
+import com.xmbest.floatmaster.manager.WidgetConfigManager
 import com.xmbest.floatmaster.factory.WidgetFactory
 import com.xmbest.floatmaster.model.getFloatWidgetItems
+import com.xmbest.floatmaster.ui.activity.main.MainViewModel
+import com.xmbest.floatmaster.ui.activity.main.MainIntent
 import com.xmbest.floatmaster.ui.component.ItemCard
+import com.xmbest.floatmaster.ui.component.PermissionStatusCard
 import com.xmbest.floatmaster.ui.component.WidgetConfigDialogs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    floatWindowManager: FloatWindowManager = hiltViewModel<HomeScreenViewModel>().floatWindowManager,
+    configManager: WidgetConfigManager = hiltViewModel<HomeScreenViewModel>().configManager,
+    widgetFactory: WidgetFactory = hiltViewModel<HomeScreenViewModel>().widgetFactory
+) {
     val context = LocalContext.current
-    val floatWindowManager = remember { FloatWindowManager(context) }
-    val configManager = rememberWidgetConfigManager()
-    val widgetFactory = remember { WidgetFactory(floatWindowManager, configManager) }
     val floatWidgetItems = getFloatWidgetItems()
     
     // 获取权限状态
-    val viewModel: com.xmbest.floatmaster.ui.activity.main.MainViewModel = hiltViewModel()
+    val viewModel: MainViewModel = hiltViewModel()
     val state by viewModel.state.collectAsState()
 
-    // 记录每个功能项的激活状态
-    val activeStates = remember { mutableStateMapOf<String, Boolean>() }
+    // 使用状态来触发重组，确保UI与FloatWindowManager状态同步
+    var refreshTrigger by remember { mutableStateOf(0) }
+    
+    // 监听权限状态变化，当权限状态改变时触发UI刷新
+    LaunchedEffect(state.permissions) {
+        refreshTrigger++
+    }
 
     Scaffold { paddingValues ->
         Column(
@@ -47,12 +57,11 @@ fun HomeScreen() {
         ) {
             // 权限状态显示 - 只有当存在未授权权限时才显示
             if (!state.allPermissionsGranted) {
-                com.xmbest.floatmaster.ui.component.PermissionStatusCard(
+                PermissionStatusCard(
                     state = state,
                     context = context,
                     onGrantPermission = { permission ->
-                        // 这里需要从Activity获取权限管理器，暂时留空
-                        // TODO: 实现权限请求逻辑
+                        viewModel.handleIntent(MainIntent.RequestPermission(permission))
                     }
                 )
             }
@@ -62,18 +71,30 @@ fun HomeScreen() {
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 floatWidgetItems.fastForEach {
-                    val isActive = activeStates[it.id] ?: false
+                    // 直接从FloatWindowManager获取真实状态，refreshTrigger确保重组
+                    val isActive by remember(it.id) { 
+                        derivedStateOf { 
+                            refreshTrigger // 依赖refreshTrigger触发重新计算
+                            floatWindowManager.hasView(it.id) 
+                        } 
+                    }
+                    
+                    // 计算当前Widget的权限状态
+                    val isEnabled = it.permissionChecker()
+                    
                     ItemCard(
                         item = it,
                         isActive = isActive,
+                        configManager = configManager,
+                        isEnabled = isEnabled,
                         onToggle = { widgetItem, shouldActivate ->
                             if (shouldActivate) {
                                 widgetFactory.activateWidget(widgetItem)
-                                activeStates[widgetItem.id] = true
                             } else {
                                 widgetFactory.deactivateWidget(widgetItem.id)
-                                activeStates[widgetItem.id] = false
                             }
+                            // 触发重组以更新UI状态
+                            refreshTrigger++
                         },
                         onEditClick = {
                             configManager.showConfigDialog(it.id)
@@ -87,7 +108,10 @@ fun HomeScreen() {
         WidgetConfigDialogs(
             configManager = configManager,
             widgetFactory = widgetFactory,
-            activeStates = activeStates
+            onWidgetRecreated = {
+                // Widget重新创建后触发UI更新
+                refreshTrigger++
+            }
         )
     }
 }

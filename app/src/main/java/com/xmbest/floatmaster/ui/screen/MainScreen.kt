@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.xmbest.floatmaster.R
+import com.xmbest.floatmaster.ui.screen.home.HomeScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
