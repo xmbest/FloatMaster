@@ -14,7 +14,6 @@ import androidx.compose.runtime.Recomposer
 import androidx.compose.ui.platform.AndroidUiDispatcher
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.compositionContext
-import androidx.compose.ui.unit.isSpecified
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.ViewModelStore
@@ -27,6 +26,7 @@ import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.xmbest.floatmaster.model.ImageProperties
 import com.xmbest.floatmaster.model.TextProperties
+import com.xmbest.floatmaster.model.WindowPosition
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -112,6 +112,25 @@ class FloatWindowManager(private val context: Context) {
      * 添加Compose悬浮窗
      * @param id 唯一标识
      * @param content Compose内容
+     * @param position 窗口位置和尺寸配置
+     */
+    fun addComposeView(
+        id: String,
+        content: @Composable () -> Unit,
+        position: WindowPosition = WindowPosition()
+    ) {
+        // 如果已存在相同ID的view，先移除
+        removeViewById(id)
+        
+        val composeView = createComposeView(content)
+        addView(composeView, position.x, position.y, position.width, position.height)
+        viewIdMap[id] = composeView
+    }
+    
+    /**
+     * 添加Compose悬浮窗（使用基本参数）
+     * @param id 唯一标识
+     * @param content Compose内容
      * @param startX 起始x轴点
      * @param startY 起始y轴点
      * @param width 宽度
@@ -125,12 +144,7 @@ class FloatWindowManager(private val context: Context) {
         width: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
         height: Int = ViewGroup.LayoutParams.WRAP_CONTENT
     ) {
-        // 如果已存在相同ID的view，先移除
-        removeViewById(id)
-        
-        val composeView = createComposeView(content)
-        addView(composeView, startX, startY, width, height)
-        viewIdMap[id] = composeView
+        addComposeView(id, content, WindowPosition(startX, startY, width, height))
     }
     
     /**
@@ -141,18 +155,7 @@ class FloatWindowManager(private val context: Context) {
         content: @Composable () -> Unit,
         imageProperties: ImageProperties
     ) {
-        // 如果已存在相同ID的view，先移除
-        removeViewById(id)
-        
-        val composeView = createComposeView(content)
-        addView(
-            composeView, 
-            imageProperties.x.toInt(), 
-            imageProperties.y.toInt(), 
-            imageProperties.width.toInt(), 
-            imageProperties.height.toInt()
-        )
-        viewIdMap[id] = composeView
+        addComposeView(id, content, WindowPosition.fromImageProperties(imageProperties))
     }
     
     /**
@@ -163,20 +166,7 @@ class FloatWindowManager(private val context: Context) {
         content: @Composable () -> Unit,
         textProperties: TextProperties
     ) {
-        // 如果已存在相同ID的view，先移除
-        removeViewById(id)
-        
-        val composeView = createComposeView(content)
-        val width = if (textProperties.width.isSpecified) textProperties.width.value.toInt() else ViewGroup.LayoutParams.WRAP_CONTENT
-        val height = if (textProperties.height.isSpecified) textProperties.height.value.toInt() else ViewGroup.LayoutParams.WRAP_CONTENT
-        addView(
-            composeView, 
-            textProperties.x.toInt(), 
-            textProperties.y.toInt(), 
-            width, 
-            height
-        )
-        viewIdMap[id] = composeView
+        addComposeView(id, content, WindowPosition.fromTextProperties(textProperties))
     }
 
     /**

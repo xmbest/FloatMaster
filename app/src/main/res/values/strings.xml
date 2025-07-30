@@ -15,4 +15,30 @@
     <string name="edit_item">编辑项目</string>
     <string name="pause_description">暂停</string>
     <string name="start_description">启动</string>
+    
+    <!-- Widget titles -->
+    <string name="widget_time_display">时间显示</string>
+    <string name="widget_network_speed">网络速度</string>
+    <string name="widget_mic_mute">麦克风静音</string>
+    
+    <!-- Dialog buttons -->
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_confirm">确定</string>
+    
+    <!-- Config labels -->
+    <string name="config_refresh_interval">刷新间隔</string>
+    <string name="config_format_string">格式字符串</string>
+    <string name="config_timezone">时区</string>
+    <string name="config_display_mode">显示模式</string>
+    <string name="config_icon_size">图标大小</string>
+    <string name="config_transparency">透明度</string>
+    <string name="config_font_size">字体大小</string>
+    <string name="config_font_color">字体颜色</string>
+    <string name="config_background_color">背景颜色</string>
+    
+    <!-- Section titles -->
+    <string name="section_basic_settings">基本设置</string>
+    <string name="section_appearance_settings">外观设置</string>
+    <string name="section_text_properties">文本属性</string>
+    <string name="section_image_properties">图像属性</string>
 </resources>

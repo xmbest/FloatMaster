@@ -8,8 +8,11 @@ import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.NetworkCheck
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.xmbest.floatmaster.constants.WidgetConstants
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
+import com.xmbest.floatmaster.R
 import com.xmbest.floatmaster.ui.widget.MicMuteWidget
 import com.xmbest.floatmaster.ui.widget.NetworkSpeedWidget
 import com.xmbest.floatmaster.ui.widget.TimeWidget
@@ -41,8 +44,8 @@ fun getFloatWidgetItems(): List<FloatWidgetItem> {
     
     return listOf(
         FloatWidgetItem(
-            id = "mic_mute",
-            title = "麦克风控制",
+            id = WidgetConstants.WIDGET_ID_MIC_MUTE,
+            title = stringResource(R.string.widget_mic_mute),
             description = "快速静音/取消静音麦克风",
             icon = Icons.Default.Mic,
             permissionChecker = { 
@@ -56,8 +59,8 @@ fun getFloatWidgetItems(): List<FloatWidgetItem> {
             }
         ),
         FloatWidgetItem(
-            id = "network_speed",
-            title = "网速监控",
+            id = WidgetConstants.WIDGET_ID_NETWORK_SPEED,
+            title = stringResource(R.string.widget_network_speed),
             description = "实时显示网络上下行速度",
             icon = Icons.Default.NetworkCheck,
             permissionChecker = { true }, // 网速监控不需要特殊权限
@@ -66,8 +69,8 @@ fun getFloatWidgetItems(): List<FloatWidgetItem> {
             }
         ),
         FloatWidgetItem(
-            id = "time_display",
-            title = "时间显示",
+            id = WidgetConstants.WIDGET_ID_TIME_DISPLAY,
+            title = stringResource(R.string.widget_time_display),
             description = "显示当前时间",
             icon = Icons.Default.AccessTime,
             permissionChecker = { true }, // 时间显示不需要特殊权限

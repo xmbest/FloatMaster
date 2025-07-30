@@ -20,7 +20,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.xmbest.floatmaster.R
 import com.xmbest.floatmaster.model.ImageProperties
 
 /**
@@ -130,7 +132,7 @@ fun ImagePropertiesEditor(
             
             // 背景颜色
             Column {
-                Text("背景颜色", style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.config_background_color), style = MaterialTheme.typography.bodySmall)
                 Spacer(modifier = Modifier.height(4.dp))
                 ColorPicker(
                     color = backgroundColor,
