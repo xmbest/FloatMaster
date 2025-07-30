@@ -41,4 +41,20 @@
     <string name="section_appearance_settings">外观设置</string>
     <string name="section_text_properties">文本属性</string>
     <string name="section_image_properties">图像属性</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">首页</string>
+    <string name="nav_about">关于</string>
+    
+    <!-- About Screen -->
+    <string name="about_title">关于悬浮大师</string>
+    <string name="about_version">版本 %1$s</string>
+    <string name="about_description">一个功能强大的悬浮窗管理应用，支持时间显示、网络速度监控、麦克风控制等多种悬浮功能。</string>
+    <string name="about_developer">开发者</string>
+    <string name="about_developer_name">XMBest</string>
+    <string name="about_support">赞赏支持</string>
+    <string name="about_support_description">如果您觉得这个应用对您有帮助，欢迎赞赏支持开发者</string>
+    <string name="payment_alipay">支付宝</string>
+    <string name="payment_wechat">微信支付</string>
+    <string name="payment_close">关闭</string>
 </resources>

@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.xmbest.floatmaster.manager.PermissionManager
 import com.xmbest.floatmaster.model.Permission
 import com.xmbest.floatmaster.ui.component.PermissionStatusCard
-import com.xmbest.floatmaster.ui.screen.HomeScreen
+import com.xmbest.floatmaster.ui.screen.MainScreen
 import com.xmbest.floatmaster.ui.theme.FloatMasterTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -63,32 +63,7 @@ class MainActivity : ComponentActivity() {
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        // 权限状态显示 - 只有当存在未授权权限时才显示
-                        if (!state.allPermissionsGranted) {
-                            PermissionStatusCard(
-                                state = state,
-                                context = this@MainActivity,
-                                onGrantPermission = { permission ->
-                                    permissionManager.requestPermissionSmart(
-                                        permission,
-                                        requestPermissionLauncher,
-                                        overlayPermissionLauncher
-                                    ) { requestedPermission ->
-                                        currentRequestedPermission = requestedPermission
-                                    }
-                                }
-                            )
-                        }
-                        HomeScreen()
-                    }
+                    MainScreen()
                 }
             }
         }
