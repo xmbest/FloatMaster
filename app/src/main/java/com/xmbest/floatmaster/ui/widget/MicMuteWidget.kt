@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.MicOff
@@ -41,8 +42,11 @@ fun MicMuteWidget(imageProperties: ImageProperties = ImageProperties()) {
         contentDescription = stringResource(R.string.mic_control),
         modifier = Modifier
             .size(imageProperties.width.dp, imageProperties.height.dp)
-            .background(imageProperties.backgroundColor)
-            .padding(26.dp)
+            .background(
+                color = imageProperties.backgroundColor,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(24.dp)
             .clickable(
                 indication = null,
                 onClick = {

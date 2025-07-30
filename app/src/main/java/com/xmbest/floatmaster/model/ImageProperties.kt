@@ -12,10 +12,10 @@ import androidx.compose.ui.graphics.Color
  * @param y 当前Y坐标
  */
 data class ImageProperties(
-    val backgroundColor: Color = Color.Transparent,
-    val color: Color = Color.Black,
-    val width: Float = 100f,
-    val height: Float = 100f,
-    val x: Float = 0f,
-    val y: Float = 0f
+    val backgroundColor: Color = Color.Transparent, // 蓝色背景，更容易看到
+    val color: Color = Color.Black, // 白色图标
+    val width: Float = 300f,
+    val height: Float = 300f,
+    val x: Float = 100f,
+    val y: Float = 100f
 )
