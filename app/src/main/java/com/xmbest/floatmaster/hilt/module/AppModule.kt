@@ -20,13 +20,20 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
+    fun provideDataStore(@ApplicationContext context: Context) =
+        DataStoreModule(context)
+
+    @Provides
+    @Singleton
     fun provideFloatWindowManager(@ApplicationContext context: Context) =
         FloatWindowManager(context)
 
     @Provides
     @Singleton
-    fun provideWidgetConfigManager(@ApplicationContext context: Context) =
-        WidgetConfigManager(context)
+    fun provideWidgetConfigManager(
+        @ApplicationContext context: Context,
+        dataStore: DataStoreModule
+    ) = WidgetConfigManager(context, dataStore)
 
     @Provides
     @Singleton
@@ -34,9 +41,4 @@ object AppModule {
         floatWindowManager: FloatWindowManager,
         configManager: WidgetConfigManager
     ) = WidgetFactory(floatWindowManager, configManager)
-
-    @Provides
-    @Singleton
-    fun provideDataStore(@ApplicationContext context: Context) =
-        DataStoreModule(context)
 }

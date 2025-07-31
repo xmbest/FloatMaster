@@ -7,10 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -18,18 +15,16 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import com.xmbest.floatmaster.manager.PermissionManager
 import com.xmbest.floatmaster.model.Permission
-import com.xmbest.floatmaster.ui.component.PermissionStatusCard
 import com.xmbest.floatmaster.ui.screen.MainScreen
 import com.xmbest.floatmaster.ui.theme.FloatMasterTheme
+import com.xmbest.floatmaster.utils.StartupPerformanceTracker
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -42,28 +37,12 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        StartupPerformanceTracker.mark("main_activity_create_start")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // 初始化权限管理器
-        permissionManager = PermissionManager(this)
-
-        // 初始检查权限
-        viewModel.handleIntent(MainIntent.CheckPermissions)
-
-        // 请求所需权限
-        permissionManager.requestPermissionsIfNeeded(
-            normalPermissionLauncher = requestPermissionLauncher,
-            overlayPermissionLauncher = overlayPermissionLauncher
-        )
-
-        // 监听权限请求事件
-        lifecycleScope.launch {
-            viewModel.permissionRequest.collect { permission ->
-                handlePermissionRequest(permission)
-            }
-        }
-
+        StartupPerformanceTracker.mark("ui_setup_start")
+        // 立即设置UI，提升启动体验
         setContent {
             val state by viewModel.state.collectAsState()
             val snackbarHostState = remember { SnackbarHostState() }
@@ -76,6 +55,43 @@ class MainActivity : ComponentActivity() {
                     MainScreen()
                 }
             }
+        }
+
+        StartupPerformanceTracker.mark("ui_setup_complete")
+        
+        // 延迟初始化非关键组件，避免阻塞UI渲染
+        lifecycleScope.launch {
+            delay(100) // 让UI先渲染
+            StartupPerformanceTracker.mark("delayed_init_start")
+            initializeComponents()
+            StartupPerformanceTracker.mark("delayed_init_complete")
+            StartupPerformanceTracker.printReport()
+        }
+    }
+
+    /**
+     * 初始化非关键组件
+     */
+    private suspend fun initializeComponents() {
+        StartupPerformanceTracker.mark("permission_manager_init_start")
+        // 初始化权限管理器
+        permissionManager = PermissionManager(this@MainActivity)
+        StartupPerformanceTracker.mark("permission_manager_init_complete")
+
+        StartupPerformanceTracker.mark("permission_check_start")
+        // 初始检查权限
+        viewModel.handleIntent(MainIntent.CheckPermissions)
+        StartupPerformanceTracker.mark("permission_check_complete")
+
+        // 请求所需权限
+        permissionManager.requestPermissionsIfNeeded(
+            normalPermissionLauncher = requestPermissionLauncher,
+            overlayPermissionLauncher = overlayPermissionLauncher
+        )
+
+        // 监听权限请求事件
+        viewModel.permissionRequest.collect { permission ->
+            handlePermissionRequest(permission)
         }
     }
 

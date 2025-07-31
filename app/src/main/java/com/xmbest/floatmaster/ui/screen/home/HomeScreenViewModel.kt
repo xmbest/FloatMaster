@@ -1,26 +1,30 @@
 package com.xmbest.floatmaster.ui.screen.home
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.xmbest.floatmaster.factory.WidgetFactory
 import com.xmbest.floatmaster.manager.FloatWindowManager
 import com.xmbest.floatmaster.manager.WidgetConfigManager
-import com.xmbest.floatmaster.factory.WidgetFactory
 import com.xmbest.floatmaster.model.FloatWidgetItem
 import com.xmbest.floatmaster.module.DataStoreModule
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import com.xmbest.floatmaster.utils.StartupPerformanceTracker
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     val floatWindowManager: FloatWindowManager,
     val configManager: WidgetConfigManager,
-    val widgetFactory: WidgetFactory
+    val widgetFactory: WidgetFactory,
+    private val dataStore: DataStoreModule
 ) : ViewModel() {
-    
-    private lateinit var dataStore: DataStoreModule
     
     // 选中的widget项目
     private val _selectedItems = MutableStateFlow(setOf<String>())
@@ -45,15 +49,17 @@ class HomeScreenViewModel @Inject constructor(
     )
     
     init {
-        // 在ViewModel初始化时加载所有配置
-        configManager.loadAllConfigs()
-    }
-    
-    fun initDataStore(context: Context) {
-        if (!::dataStore.isInitialized) {
-            dataStore = DataStoreModule(context)
-            loadSelectedItems()
+        StartupPerformanceTracker.mark("home_viewmodel_init_start")
+        // 异步加载配置，避免阻塞初始化
+        viewModelScope.launch {
+            StartupPerformanceTracker.mark("config_loading_start")
+            configManager.loadAllConfigs()
+            StartupPerformanceTracker.mark("config_loading_complete")
         }
+        // 立即加载选中项目
+        StartupPerformanceTracker.mark("selected_items_loading_start")
+        loadSelectedItems()
+        StartupPerformanceTracker.mark("home_viewmodel_init_complete")
     }
     
     private fun loadSelectedItems() {

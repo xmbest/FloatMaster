@@ -1,11 +1,8 @@
 package com.xmbest.floatmaster.manager
 
 import android.content.Context
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -28,8 +25,10 @@ import kotlinx.coroutines.launch
  * Widget配置管理器
  * 统一管理所有Widget的配置状态和对话框状态，支持数据持久化
  */
-class WidgetConfigManager(private val context: Context) {
-    private val dataStore = DataStoreModule(context)
+class WidgetConfigManager(
+    private val context: Context,
+    private val dataStore: DataStoreModule
+) {
     private val scope = CoroutineScope(Dispatchers.IO)
     
     // 配置状态
@@ -168,6 +167,7 @@ class WidgetConfigManager(private val context: Context) {
     
     /**
      * 从DataStore加载所有配置
+     * 使用分批加载避免阻塞启动
      */
     fun loadAllConfigs() {
         scope.launch {
@@ -178,9 +178,13 @@ class WidgetConfigManager(private val context: Context) {
                 WidgetConstants.WIDGET_ID_MIC_MUTE
             )
             
-            widgetIds.forEach { widgetId ->
-                loadWidgetPosition(widgetId)
-                loadWidgetConfig(widgetId)
+            // 分批加载，避免阻塞
+            widgetIds.chunked(2).forEach { batch ->
+                batch.forEach { widgetId ->
+                    loadWidgetPosition(widgetId)
+                    loadWidgetConfig(widgetId)
+                }
+                kotlinx.coroutines.yield() // 让出执行权
             }
         }
     }
@@ -348,19 +352,4 @@ class WidgetConfigManager(private val context: Context) {
         }
     }
 
-}
-
-/**
- * 创建WidgetConfigManager的Composable函数
- */
-@Composable
-fun rememberWidgetConfigManager(context: Context): WidgetConfigManager {
-    val configManager = remember { WidgetConfigManager(context) }
-    
-    // 在组件首次创建时加载配置
-    LaunchedEffect(Unit) {
-        configManager.loadAllConfigs()
-    }
-    
-    return configManager
 }

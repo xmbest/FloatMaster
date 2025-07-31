@@ -16,6 +16,14 @@ import com.xmbest.floatmaster.model.Permission
  * 权限管理器，统一处理权限申请逻辑
  */
 class PermissionManager(private val activity: Activity) {
+    
+    companion object {
+        private const val TAG = "PermissionManager"
+        // 权限状态缓存，避免重复检查
+        private val permissionCache = mutableMapOf<String, Boolean>()
+        private var lastCacheTime = 0L
+        private const val CACHE_DURATION = 5000L // 5秒缓存
+    }
 
     // 用于跟踪权限是否已经被请求过
     private val requestedPermissions = mutableSetOf<String>()
@@ -43,6 +51,51 @@ class PermissionManager(private val activity: Activity) {
         overlayPermissionLauncher: ActivityResultLauncher<Intent>
     ) {
         requestSpecificPermission(permission, normalPermissionLauncher, overlayPermissionLauncher)
+    }
+
+    /**
+     * 检查是否有悬浮窗权限
+     */
+    fun hasOverlayPermission(): Boolean {
+        val cacheKey = "overlay_permission"
+        val currentTime = System.currentTimeMillis()
+        
+        // 检查缓存
+        if (currentTime - lastCacheTime < CACHE_DURATION && permissionCache.containsKey(cacheKey)) {
+            return permissionCache[cacheKey] ?: false
+        }
+        
+        val hasPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Settings.canDrawOverlays(activity)
+        } else {
+            true
+        }
+        
+        // 更新缓存
+        permissionCache[cacheKey] = hasPermission
+        lastCacheTime = currentTime
+        
+        return hasPermission
+    }
+
+    /**
+     * 检查是否有指定权限
+     */
+    fun hasPermission(permission: String): Boolean {
+        val currentTime = System.currentTimeMillis()
+        
+        // 检查缓存
+        if (currentTime - lastCacheTime < CACHE_DURATION && permissionCache.containsKey(permission)) {
+            return permissionCache[permission] ?: false
+        }
+        
+        val hasPermission = ActivityCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
+        
+        // 更新缓存
+        permissionCache[permission] = hasPermission
+        lastCacheTime = currentTime
+        
+        return hasPermission
     }
 
     /**

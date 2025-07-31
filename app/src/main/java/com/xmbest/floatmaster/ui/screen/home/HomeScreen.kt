@@ -61,11 +61,6 @@ fun HomeScreen(
     val selectedActiveCount by homeViewModel.selectedActiveCount.collectAsState()
     val widgetStateChanged by homeViewModel.widgetStateChanged.collectAsState()
 
-    // 初始化DataStore
-    LaunchedEffect(Unit) {
-        homeViewModel.initDataStore(context)
-    }
-
     // 监听权限状态变化，当权限状态改变时触发UI刷新
     LaunchedEffect(permissionState.permissions) {
         homeViewModel.notifyWidgetStateChanged()
