@@ -1,11 +1,16 @@
 package com.xmbest.floatmaster.ui.screen.home
 
+import android.app.Application
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.xmbest.floatmaster.constants.WidgetConstants
 import com.xmbest.floatmaster.factory.WidgetFactory
 import com.xmbest.floatmaster.manager.FloatWindowManager
 import com.xmbest.floatmaster.manager.WidgetConfigManager
 import com.xmbest.floatmaster.model.FloatWidgetItem
+import com.xmbest.floatmaster.model.Permission
 import com.xmbest.floatmaster.module.DataStoreModule
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +20,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import com.xmbest.floatmaster.utils.StartupPerformanceTracker
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +27,8 @@ class HomeScreenViewModel @Inject constructor(
     val floatWindowManager: FloatWindowManager,
     val configManager: WidgetConfigManager,
     val widgetFactory: WidgetFactory,
-    private val dataStore: DataStoreModule
+    private val dataStore: DataStoreModule,
+    private val application: Application
 ) : ViewModel() {
     
     // 选中的widget项目
@@ -49,24 +54,86 @@ class HomeScreenViewModel @Inject constructor(
     )
     
     init {
-        StartupPerformanceTracker.mark("home_viewmodel_init_start")
         // 异步加载配置，避免阻塞初始化
         viewModelScope.launch {
-            StartupPerformanceTracker.mark("config_loading_start")
             configManager.loadAllConfigs()
-            StartupPerformanceTracker.mark("config_loading_complete")
         }
         // 立即加载选中项目
-        StartupPerformanceTracker.mark("selected_items_loading_start")
         loadSelectedItems()
-        StartupPerformanceTracker.mark("home_viewmodel_init_complete")
     }
     
     private fun loadSelectedItems() {
         viewModelScope.launch {
             dataStore.getSelectedWidgets().collect { savedSelectedItems ->
-                _selectedItems.value = savedSelectedItems
+                // 过滤掉没有权限的选中项
+                val filteredItems = filterItemsWithPermission(savedSelectedItems)
+                _selectedItems.value = filteredItems
+                
+                // 如果过滤后的项目数量发生变化，更新DataStore
+                if (filteredItems.size != savedSelectedItems.size) {
+                    dataStore.saveSelectedWidgets(filteredItems)
+                }
             }
+        }
+    }
+    
+    /**
+     * 过滤掉没有权限的选中项
+     */
+    private fun filterItemsWithPermission(selectedItems: Set<String>): Set<String> {
+        return selectedItems.filter { itemId ->
+            checkWidgetPermission(itemId)
+        }.toSet()
+    }
+    
+    /**
+     * 检查特定widget的权限
+     */
+    private fun checkWidgetPermission(widgetId: String): Boolean {
+        // 所有widget都需要悬浮窗权限
+        if (!Permission.OVERLAY.isGranted(application)) {
+            return false
+        }
+        
+        // 根据widget类型检查特定权限
+        return when (widgetId) {
+            com.xmbest.floatmaster.constants.WidgetConstants.WIDGET_ID_MIC_MUTE -> {
+                // 麦克风widget需要录音权限
+                ContextCompat.checkSelfPermission(
+                    application,
+                    android.Manifest.permission.RECORD_AUDIO
+                ) == PackageManager.PERMISSION_GRANTED
+            }
+            WidgetConstants.WIDGET_ID_NETWORK_SPEED,
+            WidgetConstants.WIDGET_ID_TIME_DISPLAY -> {
+                // 网络速度和时间显示widget只需要悬浮窗权限
+                true
+            }
+            else -> false
+        }
+    }
+    
+    /**
+     * 权限变化时调用，移除没有权限的选中项
+     */
+    fun onPermissionChanged() {
+        val currentSelected = _selectedItems.value
+        val filteredItems = filterItemsWithPermission(currentSelected)
+        
+        if (filteredItems.size != currentSelected.size) {
+            _selectedItems.value = filteredItems
+            // 保存到DataStore
+            viewModelScope.launch {
+                dataStore.saveSelectedWidgets(filteredItems)
+            }
+            // 停止没有权限但正在运行的widget
+            val removedItems = currentSelected - filteredItems
+            removedItems.forEach { itemId ->
+                if (floatWindowManager.hasView(itemId)) {
+                    widgetFactory.deactivateWidget(itemId)
+                }
+            }
+            notifyWidgetStateChanged()
         }
     }
     

@@ -21,7 +21,6 @@ import com.xmbest.floatmaster.manager.PermissionManager
 import com.xmbest.floatmaster.model.Permission
 import com.xmbest.floatmaster.ui.screen.MainScreen
 import com.xmbest.floatmaster.ui.theme.FloatMasterTheme
-import com.xmbest.floatmaster.utils.StartupPerformanceTracker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -37,11 +36,8 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-        StartupPerformanceTracker.mark("main_activity_create_start")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        StartupPerformanceTracker.mark("ui_setup_start")
         // 立即设置UI，提升启动体验
         setContent {
             val state by viewModel.state.collectAsState()
@@ -57,15 +53,11 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        StartupPerformanceTracker.mark("ui_setup_complete")
-        
+
         // 延迟初始化非关键组件，避免阻塞UI渲染
         lifecycleScope.launch {
             delay(100) // 让UI先渲染
-            StartupPerformanceTracker.mark("delayed_init_start")
             initializeComponents()
-            StartupPerformanceTracker.mark("delayed_init_complete")
-            StartupPerformanceTracker.printReport()
         }
     }
 
@@ -73,15 +65,11 @@ class MainActivity : ComponentActivity() {
      * 初始化非关键组件
      */
     private suspend fun initializeComponents() {
-        StartupPerformanceTracker.mark("permission_manager_init_start")
         // 初始化权限管理器
         permissionManager = PermissionManager(this@MainActivity)
-        StartupPerformanceTracker.mark("permission_manager_init_complete")
 
-        StartupPerformanceTracker.mark("permission_check_start")
         // 初始检查权限
         viewModel.handleIntent(MainIntent.CheckPermissions)
-        StartupPerformanceTracker.mark("permission_check_complete")
 
         // 请求所需权限
         permissionManager.requestPermissionsIfNeeded(

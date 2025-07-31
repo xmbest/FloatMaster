@@ -61,9 +61,10 @@ fun HomeScreen(
     val selectedActiveCount by homeViewModel.selectedActiveCount.collectAsState()
     val widgetStateChanged by homeViewModel.widgetStateChanged.collectAsState()
 
-    // 监听权限状态变化，当权限状态改变时触发UI刷新
+    // 监听权限状态变化，当权限状态改变时触发UI刷新和权限过滤
     LaunchedEffect(permissionState.permissions) {
         homeViewModel.notifyWidgetStateChanged()
+        homeViewModel.onPermissionChanged()
     }
 
     Scaffold(
@@ -190,12 +191,14 @@ private fun WidgetGrid(
                 }
             }
 
+            val hasPermission = item.permissionChecker()
+            
             ItemCard(
                 item = item,
                 isActive = isActive,
                 configManager = homeViewModel.configManager,
-                isEnabled = item.permissionChecker(),
-                isSelected = selectedItems.contains(item.id),
+                isEnabled = hasPermission,
+                isSelected = hasPermission && selectedItems.contains(item.id),
                 onToggle = { widgetItem, shouldActivate ->
                     homeViewModel.toggleWidget(widgetItem, shouldActivate)
                 },

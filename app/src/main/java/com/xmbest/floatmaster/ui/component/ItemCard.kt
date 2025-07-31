@@ -149,7 +149,11 @@ fun ItemCard(
     
     Card(
         modifier = Modifier
-            .clickable { onSelectionChange(item, !isSelected) }
+            .clickable(enabled = isEnabled) { 
+                if (isEnabled) {
+                    onSelectionChange(item, !isSelected)
+                }
+            }
             .then(
                 if (isSelected) {
                     Modifier.border(
