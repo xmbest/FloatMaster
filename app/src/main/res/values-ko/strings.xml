@@ -126,4 +126,10 @@
     <string name="time_format_12h_with_seconds">12시간 형식 (02:30:25 PM)</string>
     <string name="time_format_24h_no_seconds">24시간 형식 (초 없음) (14:30)</string>
     <string name="time_format_12h_no_seconds">12시간 형식 (초 없음) (02:30 PM)</string>
+    
+    <!-- Selection and Batch Control -->
+    <string name="item_selected">선택됨</string>
+    <string name="item_not_selected">선택 안됨</string>
+    <string name="batch_stop_all">모두 정지</string>
+    <string name="batch_start_all">모두 시작</string>
 </resources>

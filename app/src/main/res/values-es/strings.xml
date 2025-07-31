@@ -126,4 +126,10 @@
     <string name="time_format_12h_with_seconds">Formato de 12 horas (02:30:25 PM)</string>
     <string name="time_format_24h_no_seconds">Formato de 24 horas sin segundos (14:30)</string>
     <string name="time_format_12h_no_seconds">Formato de 12 horas sin segundos (02:30 PM)</string>
+    
+    <!-- Selection and Batch Control -->
+    <string name="item_selected">Seleccionado</string>
+    <string name="item_not_selected">No seleccionado</string>
+    <string name="batch_stop_all">Detener todo</string>
+    <string name="batch_start_all">Iniciar todo</string>
 </resources>

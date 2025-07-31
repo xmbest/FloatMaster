@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.Flow
@@ -32,6 +33,9 @@ class DataStoreModule(private val context: Context) {
         fun getWidgetRefreshIntervalKey(widgetId: String) = longPreferencesKey("widget_${widgetId}_refresh_interval")
         fun getWidgetFormatKey(widgetId: String) = stringPreferencesKey("widget_${widgetId}_format")
         fun getWidgetTimeZoneKey(widgetId: String) = stringPreferencesKey("widget_${widgetId}_timezone")
+        
+        // 选中状态信息
+        private val SELECTED_WIDGETS_KEY = stringSetPreferencesKey("selected_widgets")
     }
 
     suspend fun <T> setValue(key: Preferences.Key<T>, value: T) {
@@ -90,6 +94,20 @@ class DataStoreModule(private val context: Context) {
                 }
                 key to (preferences[prefKey] ?: defaultValue)
             }
+        }
+    }
+    
+    // 保存选中的Widget列表
+    suspend fun saveSelectedWidgets(selectedWidgetIds: Set<String>) {
+        context.dataStore.edit { preferences ->
+            preferences[SELECTED_WIDGETS_KEY] = selectedWidgetIds
+        }
+    }
+    
+    // 获取选中的Widget列表
+    fun getSelectedWidgets(): Flow<Set<String>> {
+        return context.dataStore.data.map { preferences ->
+            preferences[SELECTED_WIDGETS_KEY] ?: emptySet()
         }
     }
 }

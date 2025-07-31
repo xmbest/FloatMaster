@@ -126,4 +126,10 @@
     <string name="time_format_12h_with_seconds">12時間形式 (02:30:25 PM)</string>
     <string name="time_format_24h_no_seconds">24時間形式（秒なし） (14:30)</string>
     <string name="time_format_12h_no_seconds">12時間形式（秒なし） (02:30 PM)</string>
+    
+    <!-- Selection and Batch Control -->
+    <string name="item_selected">選択済み</string>
+    <string name="item_not_selected">未選択</string>
+    <string name="batch_stop_all">すべて停止</string>
+    <string name="batch_start_all">すべて開始</string>
 </resources>

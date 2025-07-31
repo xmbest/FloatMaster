@@ -15,7 +15,6 @@ import com.xmbest.floatmaster.model.TextProperties
 import com.xmbest.floatmaster.ui.component.ConfigSectionTitle
 import com.xmbest.floatmaster.ui.component.DropdownFieldWithDescription
 import com.xmbest.floatmaster.ui.component.NumberInputField
-import com.xmbest.floatmaster.ui.component.TextInputField
 import com.xmbest.floatmaster.ui.component.TextPropertiesEditor
 
 /**

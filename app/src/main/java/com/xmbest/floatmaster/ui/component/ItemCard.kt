@@ -1,5 +1,7 @@
 package com.xmbest.floatmaster.ui.component
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -139,13 +141,30 @@ fun ItemCard(
     onEditClick: () -> Unit,
     configManager: com.xmbest.floatmaster.manager.WidgetConfigManager? = null,
     itemWidth: Int = 320,
-    isEnabled: Boolean = true
+    isEnabled: Boolean = true,
+    isSelected: Boolean = false,
+    onSelectionChange: (FloatWidgetItem, Boolean) -> Unit = { _, _ -> }
 ) {
     val position = getWidgetPosition(configManager, item.id)
     
     Card(
-        modifier = Modifier,
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        modifier = Modifier
+            .clickable { onSelectionChange(item, !isSelected) }
+            .then(
+                if (isSelected) {
+                    Modifier.border(
+                        width = 2.dp,
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = CardDefaults.shape
+                    )
+                } else {
+                    Modifier
+                }
+            ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = CardDefaults.cardColors().containerColor
+        )
     ) {
         Column(
             modifier = Modifier
@@ -158,7 +177,7 @@ fun ItemCard(
                 isActive = isActive,
                 isEnabled = isEnabled,
                 onToggle = onToggle,
-                itemWidth = itemWidth
+                itemWidth = itemWidth,
             )
             
             Spacer(modifier = Modifier.height(12.dp))
@@ -185,7 +204,7 @@ private fun ItemHeaderRow(
     isActive: Boolean,
     isEnabled: Boolean,
     onToggle: (FloatWidgetItem, Boolean) -> Unit,
-    itemWidth: Int
+    itemWidth: Int,
 ) {
     Row(
         modifier = Modifier.width(itemWidth.dp),
